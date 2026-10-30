@@ -139,6 +139,25 @@ export async function setSetting<T>(key: string, value: T): Promise<void> {
   await db.settings.put({ key, value });
 }
 
+export async function getSafeWord(): Promise<SafeWordRecord | undefined> {
+  return await db.safeWord.get('current_safeword');
+}
+
+export async function saveSafeWord(word: string, hint?: string): Promise<SafeWordRecord> {
+  const record: SafeWordRecord = {
+    id: 'current_safeword',
+    word: word.trim(),
+    hint: hint?.trim(),
+    updatedAt: Date.now()
+  };
+  await db.safeWord.put(record);
+  return record;
+}
+
+export async function deleteSafeWord(): Promise<void> {
+  await db.safeWord.delete('current_safeword');
+}
+
 export async function logPilotEvent(event: string, details?: Record<string, unknown>): Promise<void> {
   try {
     await db.pilotLog.add({

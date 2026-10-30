@@ -12,9 +12,14 @@ import {
   Lock,
   ArrowRight,
   AlertTriangle,
-  LogOut
+  LogOut,
+  ShieldCheck,
+  KeyRound,
+  FileText,
+  Radio
 } from 'lucide-react';
 import { HeaderBar } from '../components/HeaderBar';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import { 
   getTrustedContacts, 
   addTrustedContact, 
@@ -187,6 +192,11 @@ export const SettingsScreen: React.FC = () => {
       />
 
       <main className="flex-1 max-w-md mx-auto w-full px-4 py-6 space-y-6">
+        {/* Read-Aloud Guidance */}
+        <div className="flex justify-center">
+          <ReadAloudButton screenId="settings" />
+        </div>
+
         {/* Section 1: Language Switcher */}
         <section aria-labelledby="lang-section" className="bg-white p-5 rounded-card shadow-soft border border-teal-deep/15">
           <div className="flex items-center gap-2 mb-3 text-teal-deep font-extrabold text-lg">
@@ -419,7 +429,83 @@ export const SettingsScreen: React.FC = () => {
           </button>
         </section>
 
-        {/* Section 5: Unlink Family and Wipe Data */}
+        {/* Section 5: Family Tools & Privacy Proof */}
+        <section aria-labelledby="tools-section" className="bg-white p-5 rounded-card shadow-soft border-2 border-teal-deep/20 space-y-3">
+          <div className="flex items-center gap-2 text-teal-deep font-extrabold text-lg">
+            <ShieldCheck size={22} />
+            <h2 id="tools-section">{t('settings.toolsSection', 'Family Tools & Privacy Proof')}</h2>
+          </div>
+
+          <div className="space-y-2.5">
+            {/* Privacy Proof Screen Link */}
+            <button
+              type="button"
+              onClick={() => navigate('/privacy-proof')}
+              className="w-full min-h-[56px] p-3.5 rounded-xl bg-cream/40 hover:bg-cream border border-teal-deep/20 flex items-center justify-between text-left transition-card"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-teal-deep text-cream flex items-center justify-center shrink-0">
+                  <Radio size={20} />
+                </div>
+                <div>
+                  <span className="block font-bold text-base text-teal-deep leading-tight">
+                    {t('privacyProof.title', 'Privacy Proof')}
+                  </span>
+                  <span className="text-xs text-brown-dark/70 font-medium">
+                    Live audit of network requests & zero cloud leak
+                  </span>
+                </div>
+              </div>
+              <ArrowRight size={18} className="text-teal-deep shrink-0" />
+            </button>
+
+            {/* Safe Word Setup Link */}
+            <button
+              type="button"
+              onClick={() => navigate('/safeword')}
+              className="w-full min-h-[56px] p-3.5 rounded-xl bg-cream/40 hover:bg-cream border border-teal-deep/20 flex items-center justify-between text-left transition-card"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-cream text-teal-deep border border-teal-deep/30 flex items-center justify-center shrink-0">
+                  <KeyRound size={20} />
+                </div>
+                <div>
+                  <span className="block font-bold text-base text-teal-deep leading-tight">
+                    {t('safeword.screenTitle', 'Family Safe Word')}
+                  </span>
+                  <span className="text-xs text-brown-dark/70 font-medium">
+                    Set secret phrase stored only on device
+                  </span>
+                </div>
+              </div>
+              <ArrowRight size={18} className="text-teal-deep shrink-0" />
+            </button>
+
+            {/* Pact Card Link */}
+            <button
+              type="button"
+              onClick={() => navigate('/pact')}
+              className="w-full min-h-[56px] p-3.5 rounded-xl bg-cream/40 hover:bg-cream border border-teal-deep/20 flex items-center justify-between text-left transition-card"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-cream text-teal-deep border border-teal-deep/30 flex items-center justify-center shrink-0">
+                  <FileText size={20} />
+                </div>
+                <div>
+                  <span className="block font-bold text-base text-teal-deep leading-tight">
+                    {t('pact.screenTitle', 'Family Firewall Pact')}
+                  </span>
+                  <span className="text-xs text-brown-dark/70 font-medium">
+                    Printable PDF with golden rules & contacts
+                  </span>
+                </div>
+              </div>
+              <ArrowRight size={18} className="text-teal-deep shrink-0" />
+            </button>
+          </div>
+        </section>
+
+        {/* Section 6: Unlink Family and Wipe Data */}
         <section aria-labelledby="unlink-section" className="bg-white p-5 rounded-card shadow-soft border-2 border-terracotta/30 space-y-3">
           <div className="flex items-center gap-2 text-terracotta font-extrabold text-lg">
             <AlertTriangle size={22} />

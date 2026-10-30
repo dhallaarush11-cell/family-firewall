@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import type { DrillHistoryRecord } from './index';
 import { queueOutboxEvent } from './outbox';
+import { privacyLoggingFetch, sendEvent } from './privacy';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://tgcunoaxgctpyyesgzzi.supabase.co';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  global: {
+    fetch: privacyLoggingFetch
+  }
+});
 
 /**
  * Ensures the client is signed in via Anonymous Auth.
@@ -132,6 +137,7 @@ export async function leaveCurrentFamily() {
  */
 export async function triggerPausePressed(source: 'home' | 'drill') {
   try {
+    await sendEvent('pause_pressed', { source });
     await queueOutboxEvent('pause_pressed', { source });
   } catch (err) {
     console.warn('Failed to queue pause_pressed event:', err);
@@ -151,7 +157,7 @@ export async function syncDrillSessionToSupabase(record: Omit<DrillHistoryRecord
     const refusedMoney = !flags.has('moved_money');
     const refusedOtp = !flags.has('shared_otp') && !flags.has('shared_info');
 
-    await queueOutboxEvent('drill_completed', {
+    const eventPayload = {
       scenarioId: record.scenarioId,
       version: record.version,
       outcome: record.outcome,
@@ -162,7 +168,10 @@ export async function syncDrillSessionToSupabase(record: Omit<DrillHistoryRecord
       pauseUsed,
       flags: record.flags,
       duration: record.duration
-    });
+    };
+
+    await sendEvent('drill_completed', eventPayload);
+    await queueOutboxEvent('drill_completed', eventPayload);
   } catch (err) {
     console.warn('Drill sync queue notice (offline-first):', err);
   }

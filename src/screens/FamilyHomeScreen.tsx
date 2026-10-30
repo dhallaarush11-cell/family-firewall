@@ -10,9 +10,15 @@ import {
   LogOut,
   RefreshCw,
   QrCode,
-  ArrowRight
+  ArrowRight,
+  Flame,
+  Clock,
+  KeyRound,
+  FileText,
+  CalendarCheck2
 } from 'lucide-react';
 import { HeaderBar } from '../components/HeaderBar';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import {
   getTrustedContacts,
   addTrustedContact,
@@ -24,6 +30,11 @@ import {
   leaveCurrentFamily,
   supabase
 } from '../db/supabase';
+import {
+  calculateReadinessScore,
+  calculateDrillStreak,
+  isWeeklyBoosterDue
+} from '../engine/readiness';
 
 interface SafetyEvent {
   id: string;
@@ -57,9 +68,9 @@ function playEmergencyAlertSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
-    osc.frequency.setValueAtTime(587.33, ctx.currentTime + 0.15); // D5
-    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.3); // A5
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.setValueAtTime(587.33, ctx.currentTime + 0.15);
+    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.3);
     gain.gain.setValueAtTime(0.3, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
     osc.connect(gain);
@@ -85,6 +96,7 @@ export const FamilyHomeScreen: React.FC = () => {
 
   const [elderName, setElderName] = useState<string>('Parent');
   const [events, setEvents] = useState<SafetyEvent[]>([]);
+  const [drillSessions, setDrillSessions] = useState<LastDrillSession[]>([]);
   const [lastDrill, setLastDrill] = useState<LastDrillSession | null>(null);
   const [trustedContacts, setTrustedContacts] = useState<TrustedContact[]>([]);
   const [activeEmergencyAlert, setActiveEmergencyAlert] = useState<SafetyEvent | null>(null);
@@ -125,7 +137,7 @@ export const FamilyHomeScreen: React.FC = () => {
       if (mem) {
         await loadFamilyMembers(mem.family_id);
         await loadEvents(mem.family_id);
-        await loadLastDrill(mem.family_id);
+        await loadDrillSessions(mem.family_id);
       }
     } catch (e) {
       console.warn('Data load error:', e);
@@ -167,18 +179,21 @@ export const FamilyHomeScreen: React.FC = () => {
     }
   };
 
-  const loadLastDrill = async (familyId: string) => {
+  const loadDrillSessions = async (familyId: string) => {
     try {
       const { data, error } = await supabase
         .from('drill_sessions')
         .select('id, scenario_id, outcome, hung_up, refused_money, refused_otp, pause_used, created_at')
         .eq('family_id', familyId)
         .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
+        .limit(10);
 
       if (!error && data) {
-        setLastDrill(data as LastDrillSession);
+        const sessions = data as LastDrillSession[];
+        setDrillSessions(sessions);
+        if (sessions.length > 0) {
+          setLastDrill(sessions[0]);
+        }
       }
     } catch (err) {
       console.warn('Drill sessions load error:', err);
@@ -200,7 +215,7 @@ export const FamilyHomeScreen: React.FC = () => {
           table: 'events',
           filter: `family_id=eq.${membership.family_id}`
         },
-        (payload) => {
+        payload => {
           const newEvent = payload.new as SafetyEvent;
           setEvents(prev => [newEvent, ...prev.filter(e => e.id !== newEvent.id)]);
 
@@ -210,7 +225,7 @@ export const FamilyHomeScreen: React.FC = () => {
               playEmergencyAlertSound();
             }
           } else if (newEvent.type === 'drill_completed') {
-            loadLastDrill(membership.family_id);
+            loadDrillSessions(membership.family_id);
           }
         }
       )
@@ -287,7 +302,8 @@ export const FamilyHomeScreen: React.FC = () => {
       setMembership(null);
       setEvents([]);
       setLastDrill(null);
-    } catch (err: any) {
+      setDrillSessions([]);
+    } catch (err) {
       console.warn('Leave family notice:', err);
     }
   };
@@ -296,6 +312,25 @@ export const FamilyHomeScreen: React.FC = () => {
     await saveProfile('parent', lang);
     navigate('/elder');
   };
+
+  // Calculate Readiness Band & Streak using Requirement 5 heuristics
+  const readiness = calculateReadinessScore(
+    drillSessions.map(d => ({
+      hung_up: d.hung_up,
+      refused_money: d.refused_money,
+      refused_otp: d.refused_otp,
+      pause_used: d.pause_used,
+      created_at: d.created_at
+    }))
+  );
+
+  const streak = calculateDrillStreak(
+    drillSessions.map(d => new Date(d.created_at).getTime())
+  );
+
+  const boosterDue = isWeeklyBoosterDue(
+    lastDrill ? new Date(lastDrill.created_at).getTime() : null
+  );
 
   return (
     <div className="min-h-screen bg-cream flex flex-col pb-16">
@@ -308,6 +343,11 @@ export const FamilyHomeScreen: React.FC = () => {
       />
 
       <main className="flex-1 max-w-md mx-auto w-full px-4 py-6 space-y-6">
+        {/* Read-Aloud Guidance */}
+        <div className="flex justify-center">
+          <ReadAloudButton screenId="family_home" />
+        </div>
+
         {/* If user hasn't joined a family yet */}
         {!membership ? (
           <section className="bg-white p-6 rounded-card shadow-soft border-2 border-teal-deep/20 text-center space-y-5 animate-in fade-in duration-300">
@@ -334,21 +374,24 @@ export const FamilyHomeScreen: React.FC = () => {
             </button>
           </section>
         ) : (
-          /* When joined to a family */
+          /* When joined to a family: REPLACED WITH REAL DATA */
           <>
-            {/* Family Connection Status Card */}
-            <section className="bg-white p-5 rounded-card shadow-soft border-2 border-teal-deep/20 space-y-4">
+            {/* 1. PARENT'S DISPLAY NAME & FAMILY STATUS */}
+            <section className="bg-white p-5 rounded-card shadow-soft border-2 border-teal-deep/20 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-cream text-teal-deep flex items-center justify-center shadow-inner">
                     <Users size={26} className="text-teal-deep" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-extrabold text-teal-deep">
-                      {t('familyHome.familyStatusTitle', 'Family Protected')}
+                    <span className="text-xs uppercase font-extrabold tracking-wider text-brown-dark/70 block">
+                      {t('familyDashboard.parentProtected', 'Parent Protected')}
+                    </span>
+                    <h2 className="text-2xl font-black text-teal-deep leading-tight">
+                      {elderName}
                     </h2>
-                    <span className="text-sm text-brown-dark/75 font-semibold">
-                      Parent: <strong className="text-teal-deep">{elderName}</strong> &bull; Guardian: {membership.display_name}
+                    <span className="text-xs text-brown-dark/75 font-semibold">
+                      Guardian: {membership.display_name}
                     </span>
                   </div>
                 </div>
@@ -363,30 +406,99 @@ export const FamilyHomeScreen: React.FC = () => {
                 </button>
               </div>
 
-              <div className="p-3 bg-cream/40 rounded-xl border border-teal-deep/15 flex items-center justify-between text-sm font-semibold text-brown-dark/80">
-                <div className="flex items-center gap-2">
-                  <CheckCircle size={18} className="text-teal-deep" />
-                  <span>Realtime alerts active &bull; Cloud telemetry safe</span>
+              {/* Weekly Booster Due Indicator */}
+              {boosterDue ? (
+                <div className="p-3.5 bg-[#FFF5F2] rounded-xl border border-terracotta/40 flex items-start gap-2.5">
+                  <CalendarCheck2 size={20} className="text-terracotta shrink-0 mt-0.5" />
+                  <div>
+                    <span className="block font-black text-sm text-terracotta">
+                      {t('familyDashboard.boosterDueBadge', 'Weekly Booster Due')}
+                    </span>
+                    <p className="text-xs font-semibold text-brown-dark/80 mt-0.5">
+                      {t(
+                        'familyDashboard.boosterDueDesc',
+                        'Last drill practice was over 7 days ago. Rehearse together to maintain confidence.'
+                      )}
+                    </p>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => navigate('/pair')}
-                  className="text-xs text-teal-deep hover:underline font-bold"
-                >
-                  Pair Code
-                </button>
-              </div>
+              ) : (
+                <div className="p-2.5 bg-[#E8F8F5] rounded-xl border border-teal-deep/20 flex items-center gap-2 text-xs font-bold text-teal-deep">
+                  <CheckCircle size={16} />
+                  <span>{t('familyDashboard.boosterUpToDate', 'Practice up to date this week')}</span>
+                </div>
+              )}
             </section>
 
-            {/* Latest Completed Drill Card (Outcome: Safe | Almost | Let's try again) */}
+            {/* 2. READINESS BAND & STREAK COUNTER */}
+            <section className="bg-white p-5 rounded-card shadow-soft border-2 border-teal-deep/20 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                {/* Readiness Band Card */}
+                <div className="p-4 bg-cream/30 rounded-xl border border-teal-deep/15 space-y-1.5 text-center">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-brown-dark/70 block">
+                    {t('familyDashboard.readinessTitle', 'Readiness Band')}
+                  </span>
+                  <div
+                    className={`inline-block px-3 py-1 rounded-full text-base font-black ${
+                      readiness.band === 'Ready'
+                        ? 'bg-teal-deep text-cream'
+                        : readiness.band === 'Building'
+                        ? 'bg-amber-600 text-white'
+                        : 'bg-terracotta text-white'
+                    }`}
+                  >
+                    {readiness.band}
+                  </div>
+                  <p className="text-[11px] font-bold text-brown-dark/70 italic block pt-1">
+                    "{readiness.caption}"
+                  </p>
+                </div>
+
+                {/* Streak Counter Card */}
+                <div className="p-4 bg-cream/30 rounded-xl border border-teal-deep/15 space-y-1.5 text-center flex flex-col justify-center">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-brown-dark/70 block">
+                    {t('familyDashboard.streakTitle', 'Practice Streak')}
+                  </span>
+                  <div className="flex items-center justify-center gap-1.5 text-terracotta">
+                    <Flame size={24} className="fill-terracotta" />
+                    <span className="text-2xl font-black text-brown-dark">
+                      {streak > 0 ? `${streak}` : '0'}
+                    </span>
+                  </div>
+                  <span className="text-xs font-bold text-brown-dark/70">
+                    {streak > 0 ? t('familyDashboard.streakWeeks', 'consecutive weeks') : t('familyDashboard.streakZero', '0 weeks')}
+                  </span>
+                </div>
+              </div>
+
+              {/* 3. RUN A DRILL TOGETHER BUTTON */}
+              <button
+                type="button"
+                onClick={() => navigate('/drill?watching=true')}
+                className="w-full min-h-[56px] py-4 px-6 rounded-card bg-teal-deep hover:bg-[#073632] active:scale-[0.98] text-cream font-black text-xl shadow-elevated transition-card flex items-center justify-center gap-3"
+              >
+                <Users size={24} />
+                <span>{t('familyDashboard.runDrillTogether', 'Run a drill together')}</span>
+              </button>
+            </section>
+
+            {/* 4. LATEST DRILL OUTCOME AND TIME */}
             <section className="bg-white p-5 rounded-card shadow-soft border-2 border-teal-deep/20 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-extrabold text-lg text-teal-deep">
                   {t('familyHome.lastDrillTitle', 'Latest Practice Drill')}
                 </h3>
-                <span className="text-xs font-semibold text-brown-dark/60">
-                  {lastDrill ? new Date(lastDrill.created_at).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''}
-                </span>
+                {lastDrill && (
+                  <span className="text-xs font-semibold text-brown-dark/60 flex items-center gap-1">
+                    <Clock size={14} />
+                    {new Date(lastDrill.created_at).toLocaleDateString([], {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                )}
               </div>
 
               {lastDrill ? (
@@ -442,7 +554,42 @@ export const FamilyHomeScreen: React.FC = () => {
               )}
             </section>
 
-            {/* Live Events & Recent Alerts */}
+            {/* QUICK ACTIONS: SAFE WORD & PACT CARD */}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => navigate('/safeword')}
+                className="p-4 bg-white rounded-card shadow-soft border-2 border-teal-deep/20 hover:border-teal-deep text-left space-y-1.5 transition-card"
+              >
+                <div className="w-10 h-10 rounded-full bg-cream text-teal-deep flex items-center justify-center">
+                  <KeyRound size={20} />
+                </div>
+                <h4 className="font-extrabold text-base text-teal-deep leading-tight">
+                  {t('familyDashboard.safeWordCardTitle', 'Family Safe Word')}
+                </h4>
+                <p className="text-xs text-brown-dark/70 font-medium line-clamp-2">
+                  {t('familyDashboard.safeWordCardSub', 'Set secret phrase to verify callers claiming to be relatives')}
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigate('/pact')}
+                className="p-4 bg-white rounded-card shadow-soft border-2 border-teal-deep/20 hover:border-teal-deep text-left space-y-1.5 transition-card"
+              >
+                <div className="w-10 h-10 rounded-full bg-cream text-teal-deep flex items-center justify-center">
+                  <FileText size={20} />
+                </div>
+                <h4 className="font-extrabold text-base text-teal-deep leading-tight">
+                  {t('familyDashboard.pactCardTitle', 'Family Pact Card')}
+                </h4>
+                <p className="text-xs text-brown-dark/70 font-medium line-clamp-2">
+                  {t('familyDashboard.pactCardSub', 'Download printable PDF card with rules & contacts')}
+                </p>
+              </button>
+            </div>
+
+            {/* 5. LIST OF RECENT ALERTS */}
             <section className="bg-white p-5 rounded-card shadow-soft border border-teal-deep/15 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-extrabold text-lg text-teal-deep">
@@ -574,7 +721,6 @@ export const FamilyHomeScreen: React.FC = () => {
           </div>
 
           <div className="space-y-3 max-w-md mx-auto w-full pb-4">
-            {/* Action 1: Quick Call */}
             <button
               type="button"
               onClick={handleQuickCall}
@@ -584,7 +730,6 @@ export const FamilyHomeScreen: React.FC = () => {
               <span>{t('alert.quickCallButton', 'Quick Call')} ({elderName})</span>
             </button>
 
-            {/* Action 2: I'm Calling Now (Acknowledges) */}
             <button
               type="button"
               onClick={() => handleAcknowledgeAlert(activeEmergencyAlert.id)}

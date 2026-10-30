@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ShieldCheck, UserCheck, Users, Sparkles } from 'lucide-react';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import { saveProfile, getProfile } from '../db';
 
 export const WelcomeScreen: React.FC = () => {
@@ -74,6 +75,10 @@ export const WelcomeScreen: React.FC = () => {
         <p className="text-sm text-brown-dark/70 mt-2 max-w-xs mx-auto leading-relaxed">
           {t('app.mission')}
         </p>
+
+        <div className="flex justify-center pt-3">
+          <ReadAloudButton screenId="welcome" />
+        </div>
       </div>
 
       {/* Main Selection Area */}

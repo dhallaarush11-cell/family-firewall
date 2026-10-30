@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PhoneCall, AlertTriangle, PhoneForwarded, ShieldCheck, HeartHandshake, Users, QrCode } from 'lucide-react';
+import {
+  PhoneCall,
+  AlertTriangle,
+  PhoneForwarded,
+  ShieldCheck,
+  HeartHandshake,
+  Users,
+  QrCode,
+  ShieldQuestion,
+  FileText
+} from 'lucide-react';
 import { HeaderBar } from '../components/HeaderBar';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import { PauseShieldButton } from '../components/PauseShieldButton';
 import { PauseModal } from '../components/PauseModal';
 import { PracticeCallPlaceholderModal } from '../components/PracticeCallPlaceholderModal';
 import { PressureReassuranceModal } from '../components/PressureReassuranceModal';
+import { CallerVerificationModal } from '../components/CallerVerificationModal';
 import { getTrustedContacts, type TrustedContact } from '../db';
 import { getCurrentMembership } from '../db/supabase';
 
@@ -17,6 +29,7 @@ export const ElderHomeScreen: React.FC = () => {
   const [isPauseOpen, setIsPauseOpen] = useState(false);
   const [isPracticeOpen, setIsPracticeOpen] = useState(false);
   const [isPressureOpen, setIsPressureOpen] = useState(false);
+  const [isVerifyCallerOpen, setIsVerifyCallerOpen] = useState(false);
   const [contacts, setContacts] = useState<TrustedContact[]>([]);
   const [showNoContactModal, setShowNoContactModal] = useState(false);
   const [membership, setMembership] = useState<{ id: string; family_id: string; display_name: string } | null>(null);
@@ -45,6 +58,11 @@ export const ElderHomeScreen: React.FC = () => {
       <HeaderBar showBack={false} showHome={false} showSettings={true} />
 
       <main className="flex-1 max-w-md mx-auto w-full px-4 pt-4 sm:pt-6 space-y-6">
+        {/* Read-Aloud Guidance */}
+        <div className="flex justify-center">
+          <ReadAloudButton screenId="elder_home" />
+        </div>
+
         {/* Friendly Reassuring Greeting Card */}
         <section aria-labelledby="greeting-heading" className="bg-white p-6 rounded-card shadow-soft border-2 border-teal-deep/15 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cream text-teal-deep mb-3 shadow-inner">
@@ -80,6 +98,32 @@ export const ElderHomeScreen: React.FC = () => {
           >
             <QrCode size={18} />
             <span>{membership ? t('elderHome.viewQR', 'Show QR') : t('elderHome.pairButton', 'Connect')}</span>
+          </button>
+        </section>
+
+        {/* MANDATORY: "Verify this caller" card */}
+        <section className="bg-white p-5 rounded-card shadow-soft border-2 border-terracotta/40 space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-[#FFF5F2] text-terracotta flex items-center justify-center shrink-0">
+              <ShieldQuestion size={28} />
+            </div>
+            <div>
+              <h3 className="font-black text-xl text-brown-dark leading-tight">
+                {t('verifyCaller.title', 'Verify This Caller')}
+              </h3>
+              <p className="text-sm font-semibold text-brown-dark/75 mt-0.5">
+                {t('verifyCaller.cardSubtitle', 'Caller claims to be a relative? Check with family safe word.')}
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsVerifyCallerOpen(true)}
+            className="w-full min-h-[56px] py-3.5 px-4 rounded-card bg-[#FFF5F2] hover:bg-terracotta hover:text-white border-2 border-terracotta text-terracotta font-black text-lg shadow-sm transition-card flex items-center justify-center gap-2"
+          >
+            <ShieldQuestion size={22} />
+            <span>{t('verifyCaller.actionButton', 'Verify Caller Instruction')}</span>
           </button>
         </section>
 
@@ -154,6 +198,30 @@ export const ElderHomeScreen: React.FC = () => {
           </button>
         </section>
 
+        {/* Pact Card Link */}
+        <section className="bg-white p-4 rounded-card border-2 border-teal-deep/20 flex items-center justify-between gap-3 shadow-soft">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-cream text-teal-deep flex items-center justify-center shrink-0">
+              <FileText size={20} />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-base text-teal-deep">
+                {t('pact.cardTitle', 'Family Firewall Pact')}
+              </h4>
+              <p className="text-xs text-brown-dark/70 font-semibold">
+                {t('pact.subtitle', 'Printable rules & helpline 1930')}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/pact')}
+            className="min-h-[44px] px-3.5 py-1.5 rounded-xl bg-cream hover:bg-[#FFE8B2] text-teal-deep font-bold text-xs border border-teal-deep/30 transition-card"
+          >
+            {t('pact.downloadPdf', 'View Card')}
+          </button>
+        </section>
+
         {/* Reassurance Reminder Card */}
         <div className="p-4 bg-white/70 rounded-card border border-teal-deep/15 text-center flex items-center justify-center gap-2 text-sm text-brown-dark/80">
           <ShieldCheck size={20} className="text-teal-deep shrink-0" />
@@ -163,6 +231,13 @@ export const ElderHomeScreen: React.FC = () => {
 
       {/* Persistent Round Pause Shield Button (Always visible at bottom) */}
       <PauseShieldButton onClick={() => setIsPauseOpen(true)} />
+
+      {/* Caller Verification Modal */}
+      <CallerVerificationModal
+        isOpen={isVerifyCallerOpen}
+        onClose={() => setIsVerifyCallerOpen(false)}
+        trustedContact={contacts[0]}
+      />
 
       {/* Pause Modal Overlay */}
       <PauseModal

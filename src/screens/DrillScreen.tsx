@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   LogOut,
@@ -20,6 +20,7 @@ import { PressureMeter } from '../components/PressureMeter';
 import { DrillPathMap } from '../components/DrillPathMap';
 import { PauseShieldButton } from '../components/PauseShieldButton';
 import { PauseModal } from '../components/PauseModal';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import { saveDrillResult } from '../db';
 import type { Outcome, Tactic } from '../engine/types';
 
@@ -30,9 +31,11 @@ export const DrillScreen: React.FC = () => {
   const navigate = useNavigate();
   const lang = (i18n.language as 'en' | 'hi' | 'hing') || 'en';
 
-  // State
+  const [searchParams] = useSearchParams();
   const [phase, setPhase] = useState<DrillPhase>('pre');
-  const [familyWatching, setFamilyWatching] = useState<boolean>(false);
+  const [familyWatching, setFamilyWatching] = useState<boolean>(() => {
+    return searchParams.get('watching') === 'true' || searchParams.get('watching') === '1';
+  });
   const [engine, setEngine] = useState<DrillEngine>(() => new DrillEngine(DIGITAL_ARREST_SCENARIO));
   const [isPauseOpen, setIsPauseOpen] = useState(false);
   const [audioError, setAudioError] = useState<boolean>(false);
@@ -243,6 +246,10 @@ export const DrillScreen: React.FC = () => {
         {/* PHASE 1: PRE-DRILL */}
         {phase === 'pre' && (
           <div className="bg-white rounded-card p-6 shadow-soft border-2 border-teal-deep/20 space-y-6 text-center animate-in fade-in duration-300">
+            <div className="flex justify-center">
+              <ReadAloudButton screenId="drill" />
+            </div>
+
             <div className="w-20 h-20 rounded-full bg-cream text-teal-deep flex items-center justify-center mx-auto shadow-inner border-2 border-teal-deep/20">
               <PhoneCall size={40} className="text-teal-deep" />
             </div>

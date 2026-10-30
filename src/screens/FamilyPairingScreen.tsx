@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { HeaderBar } from '../components/HeaderBar';
 import { PairingConsentModal } from '../components/PairingConsentModal';
+import { ReadAloudButton } from '../components/ReadAloudButton';
 import { saveProfile } from '../db';
 import { redeemPairingCode } from '../db/supabase';
 
@@ -177,6 +178,10 @@ export const FamilyPairingScreen: React.FC = () => {
       />
 
       <main className="flex-1 max-w-md mx-auto w-full px-4 py-6 space-y-6">
+        <div className="flex justify-center">
+          <ReadAloudButton screenId="family_pairing" />
+        </div>
+
         {errorMessage && (
           <div className="p-4 bg-terracotta/15 border-2 border-terracotta rounded-card text-terracotta font-bold text-base text-center">
             {errorMessage}
