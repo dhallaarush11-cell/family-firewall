@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  src: url('/fonts/NotoSansDevanagari.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --color-cream: #FFF1CC;
+  --color-teal-deep: #0B4F4A;
+  --color-terracotta: #E07856;
+  --color-brown-dark: #231A14;
+  --base-font-size: 18px;
+}
+
+body {
+  margin: 0;
+  background-color: #FFF1CC;
+  color: #231A14;
+  font-family: 'Outfit', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--base-font-size);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Accessibility: Large Text mode */
+body.text-size-large {
+  --base-font-size: 22px;
+  line-height: 1.7;
+}
+
+/* Touch targets and buttons */
+button, a.btn-action {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth transitions */
+.transition-card {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(11, 79, 74, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(11, 79, 74, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 79, 74, 0.35);
+}

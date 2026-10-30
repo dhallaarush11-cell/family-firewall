@@ -1,0 +1,261 @@
+{
+  "app": {
+    "name": "Family Firewall",
+    "byline": "by team Aurex",
+    "tagline": "Rehearse together. Pause together.",
+    "mission": "Yeh protective behavior sikhata hai. Yeh scam detect nahi karta aur prevent karne ka claim kabhi nahi karta."
+  },
+  "roles": {
+    "parent": "Main parent / elder hoon",
+    "parentSub": "Simple practice drills aur one-tap Pause button",
+    "family": "Main family member hoon",
+    "familySub": "Support karein, drills dekhein aur safe rahein"
+  },
+  "languages": {
+    "title": "Apni bhasha chunein",
+    "en": "English",
+    "hi": "हिन्दी",
+    "hing": "Hinglish"
+  },
+  "nav": {
+    "back": "Wapas (Back)",
+    "home": "Home",
+    "settings": "Settings",
+    "exit": "Exit",
+    "close": "Band karein"
+  },
+  "welcome": {
+    "title": "Family Firewall mein welcome",
+    "subtitle": "Start karne ke liye apni language aur apna role chunein.",
+    "rolePrompt": "Yeh app kaun use kar raha hai?"
+  },
+  "elderHome": {
+    "greeting": "Namaste! Aap apne ghar mein safe hain.",
+    "subtitle": "Shaanti se practice karein. Yaad rakhein: Asli police ya judge kabhi video call par arrest nahi karte.",
+    "practiceButton": "Call practice karein",
+    "practiceSub": "Fictional callers ke saath safe practice",
+    "pressureButton": "Mujh par pressure hai",
+    "pressureSub": "Ghabrahat ya urgency hone par safe steps",
+    "callPersonButton": "Mere person ko call karein",
+    "callPersonSub": "Apne trusted contact ko direct phone lagayein",
+    "pauseButtonLabel": "PAUSE",
+    "pauseButtonSub": "Safety ke liye ek tap",
+    "familyConnected": "Family Connected",
+    "familyConnectTitle": "Family se connect karein",
+    "familyConnectSubtitle": "Safety alerts receive karne ke liye family phone jodein",
+    "alertsActive": "Safety alerts active hain",
+    "viewQR": "QR Code dekhein",
+    "pairButton": "Connect"
+  },
+  "familyHome": {
+    "title": "Family Member Dashboard",
+    "status": "Family Safety Hub",
+    "description": "Apne elders se jude rahein. Real-time Pause alerts receive karein aur drill outcomes review karein.",
+    "switchRole": "Parent mode mein badlein",
+    "notConnectedTitle": "Apne Parent ke Phone se Judein",
+    "notConnectedSub": "Instant Pause alerts paane aur practice outcomes dekhne ke liye phone connect karein.",
+    "pairNowButton": "Parent Phone se Connect Karein",
+    "familyStatusTitle": "Family Protected Hai",
+    "lastDrillTitle": "Latest Practice Call",
+    "noDrillsYet": "Abhi koi practice call record nahi hui hai.",
+    "leave": "Family Chhodein",
+    "recentEvents": "Live Family Safety Alerts",
+    "noEvents": "Abhi koi alerts nahi hain. Parivaar safe hai.",
+    "pauseAlertTitle": "Emergency Pause dabaya gaya",
+    "drillCompletedTitle": "Practice Call complete hui",
+    "acknowledge": "Acknowledge"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Language, text size aur trusted contacts manage karein.",
+    "languageSection": "App Language",
+    "textSizeSection": "Text Size (Akshar ka size)",
+    "textSizeNormal": "Normal (18px)",
+    "textSizeLarge": "Large (22px)",
+    "contactsSection": "Trusted Contacts (Max 3)",
+    "contactsSubtitle": "3 trusted contacts add karein. Yeh sirf isi phone par safe rehte hain.",
+    "addContact": "Contact Add Karein",
+    "contactName": "Poora Naam",
+    "contactRelation": "Rishta (Jaise: Beta, Beti, Dost)",
+    "contactPhone": "Phone Number",
+    "contactPriority": "Priority",
+    "noContacts": "Abhi koi contact nahi joda gaya. Niche tap karke add karein.",
+    "maxContactsReached": "Maximum 3 contacts ho gaye hain.",
+    "saveContact": "Save Karein",
+    "cancel": "Cancel",
+    "deleteContact": "Hataayein",
+    "callNow": "Call Karein",
+    "roleSection": "Current Mode",
+    "roleParent": "Parent / Elder",
+    "roleFamily": "Family Member",
+    "changeRole": "Role Badlein",
+    "unlinkTitle": "Privacy aur Family Unlink",
+    "unlinkDesc": "Family connection remove karein aur is phone se saare local contacts, practice drill records aur settings hamesha ke liye delete karein.",
+    "unlinkButton": "Family unlink karein aur mera data delete karein",
+    "unlinkConfirmTitle": "Unlink aur saara data delete karein?",
+    "unlinkConfirmMessage": "Isse server se aapka family link hat jayega aur phone se sabhi contacts aur practice history delete ho jayegi. Aap Welcome screen par laut aayenge.",
+    "confirmUnlink": "Haan, Unlink aur Sab Delete Karein",
+    "wiping": "Data delete ho raha hai..."
+  },
+  "pauseModal": {
+    "badge": "Safety Pause Activated",
+    "title": "Gehri saans lein. Aap bilkul safe hain.",
+    "ruleReminder": "Golden Rule: Real police, CBI ya judge KABHI video call par kisi ko 'digital arrest' mein nahi daalte.",
+    "step1": "1. Call turant disconnect karein. Phone par kisi ko koi safai dene ki zaroorat nahi hai.",
+    "step2": "2. Teen baar gehri saans lein.",
+    "step3": "3. Kuch bhi karne se pehle seedha apne trusted family member se baat karein.",
+    "step4": "4. Kabhi bhi online paise transfer na karein, OTP share na karein.",
+    "actionCall": "Apne Person Ko Call Lagayein",
+    "actionAlert": "Family Member Ko Alert Karein",
+    "alertSent": "Alert locally record ho gaya. Family member ko notify kiya gaya.",
+    "close": "Main Ab Safe Hoon"
+  },
+  "practiceModal": {
+    "tag": "Practice call",
+    "title": "Practice Drill Simulation",
+    "fictionalNotice": "Fictional Organization: Central Cyber Verification Bureau (Simulation Only)",
+    "body": "Yeh ek safe training scenario hai taaki aap fake official calls bina dare cut karna seekhein. Real officers video par court case ya money transfer demand nahi karte.",
+    "exitButton": "Practice se Exit karein",
+    "startPrompt": "Deterministic drill engine next stage mein yahan live hoga."
+  },
+  "pressureModal": {
+    "title": "Kya koi pressure bana raha hai?",
+    "reassurance": "Scammers aapko sochte waqt ghabrahat aur panic mein daalte hain taaki aap verify na kar sakein.",
+    "rule1": "Koi bhi genuine government office secret money transfer ki demand nahi karta.",
+    "rule2": "Call cut karke alag se verify karna aapka 100% legal right hai.",
+    "action": "Abhi confirm karne ke liye apne trusted family person ko call lagayein.",
+    "close": "Samajh gaya, shukriya"
+  },
+  "callModal": {
+    "noContactTitle": "Koi Trusted Contact Nahi Mila",
+    "noContactMessage": "Kripya Settings mein jaakar kam se kam ek trusted contact save karein taaki aap ek tap mein phone laga sakein.",
+    "goToSettings": "Settings Mein Jaayein"
+  },
+  "outcomes": {
+    "safe": "Safe",
+    "almost": "Almost",
+    "tryAgain": "Let's try again"
+  },
+  "drill": {
+    "practiceTag": "Practice call",
+    "exit": "Exit",
+    "preDrill": {
+      "line1": "Yeh pressure situation handle karne ke liye ek safe practice call hai.",
+      "line2": "Family member aapke saath baith kar dekh aur seekh sakta hai.",
+      "start": "Practice Start Karein",
+      "familyWatching": "Family member saath dekh raha hai"
+    },
+    "incoming": {
+      "callTitle": "Incoming Video Call",
+      "accept": "Call Uthayein (Accept)",
+      "decline": "Call Kaatein (Decline)",
+      "declineTitle": "Call Cut Kar Di",
+      "declineMessage": "Unknown video call ko decline karna hi bilkul sahi safe kadam hai. Real officers video call par inquiry ya arrest kabhi nahi karte."
+    },
+    "call": {
+      "replayAudio": "Audio Replay",
+      "audioNotRecorded": "audio not recorded",
+      "pressureMeter": "Pressure Meter",
+      "bands": {
+        "calm": "Calm (Shaant)",
+        "rising": "Rising (Badhta pressure)",
+        "highPressure": "High pressure (Bhaari dabav)"
+      }
+    },
+    "debrief": {
+      "title": "Drill Debrief",
+      "safeMessage": "Aapne khud ko aur apni family ko protect kiya. Warning signs pehchanne ke liye bahut badhiya!",
+      "almostMessage": "Acchi koshish! Aapne sabse bade risk se bachaav kiya, par OTP aur personal info ko lekar alert rahein.",
+      "tryAgainMessage": "Gehri saans lein. Scammers jaanbujh kar high pressure banate hain. Practice se hi hum strong bante hain.",
+      "tacticsTitle": "Caller ne yeh tactics use kiye",
+      "whatYouDidWell": "Aapne kya accha kiya",
+      "nextTime": "Agli baar yeh try karein",
+      "pathMapTitle": "Aapka Path Map (The Butterfly Effect)",
+      "pathMapSub": "Aapne kaunsa raasta chuna aur kaunse risky options se bache.",
+      "tryAgain": "Dobara Practice Karein",
+      "home": "Home"
+    },
+    "tactics": {
+      "authority": "Caller ne officer banne ka natak kiya taaki aap bina sawal kiye unki baat maanein.",
+      "urgency": "Caller ne artificial jaldbaazi banayi taaki aapko sochne ka time na mile.",
+      "isolation": "Caller ne aapse akele rehne aur parivaar se baat na karne ko kaha.",
+      "secrecy": "Caller ne raaz rakhne par zor diya taaki koi aapko warn na kar sake.",
+      "fear": "Caller ne giraftaari ki dhamki dekar darane ki koshish ki.",
+      "info_request": "Caller ne Aadhaar number aur OTP jaise sensitive personal details maange.",
+      "payment_request": "Caller ne safe account ke naam par paise transfer karne ko kaha."
+    },
+    "feedback": {
+      "wellHungUp": "Doubt hote hi aapne turant call disconnect kar di.",
+      "wellToldSomeone": "Aapne akele jhelne ke bajaye family ko involve karne par zor diya.",
+      "wellUsedPause": "Aapne react karne se pehle shaant hokar Pause ka use kiya.",
+      "wellCalm": "Aap calm rahe aur caller ke tactics ko observe kiya.",
+      "nextMoney": "Anjaan call par kabhi paise na bhejein. Asli police kabhi money transfer nahi maangti.",
+      "nextInfo": "Call par kabhi Aadhaar number ya OTP share na karein.",
+      "nextHangUp": "Aap turant phone kaat kar Pause daba sakte hain ya family se baat kar sakte hain.",
+      "nextKeepPracticing": "Practice jaari rakhein! Jaldi phone kaatna aur family ko batana hamesha safe rehta hai."
+    }
+  },
+  "consent": {
+    "badge": "Family Privacy Promise",
+    "title": "Family Connect Karne Se Pehle",
+    "elderSubtitle": "Aapka poora control bana rehta hai. Aapki personal calls aur safe word KABHI is phone se bahar nahi jaate.",
+    "guardianSubtitle": "Family Firewall sirf safety alerts aur practice outcomes ke liye connect karta hai. Personal baatein kabhi share nahi hoti.",
+    "willSeeTitle": "Aapki family kya dekh payegi:",
+    "willSeePause": "Jab aap orange Pause button dabayenge",
+    "willSeeDrill": "Practice drill outcomes (Safe, Almost, Let's try again)",
+    "willSeeTime": "Safety alerts ka date aur time",
+    "willNotSeeTitle": "Aapki family kya KABHI nahi dekhegi:",
+    "willNotSeeCalls": "Personal phone calls ya aap kis se baat kar rahe hain",
+    "willNotSeeAudio": "Voice recordings ya call transcripts",
+    "willNotSeeContacts": "Aapka safe word, contacts ya phone numbers",
+    "willNotSeeMessages": "Private messages, photos ya passwords",
+    "agreeButton": "Main Agree Karta/Karti Hoon",
+    "cancelButton": "Cancel"
+  },
+  "pairing": {
+    "parentTitle": "Family se Connect Karein",
+    "guardianTitle": "Family Join Karein",
+    "parentNameTitle": "Aapki family aapko kya pukaregi?",
+    "parentNameSub": "Apna naam ya nickname dalein jaise Papa, Dad ya Mataji.",
+    "nameLabel": "Aapka naam ya nickname",
+    "namePlaceholder": "Jaise: Papa, Ramesh, Dad",
+    "nameRequired": "Kripya apna naam ya nickname enter karein",
+    "createFamilyButton": "Family Banayein aur Code Dekhein",
+    "creating": "Family setup ho rahi hai...",
+    "createError": "Family create nahi ho payi. Internet connection check karein.",
+    "familyReady": "Family Connected",
+    "scanPrompt": "Apne family member se yeh QR code scan karne ko kahein",
+    "scanSub": "Ya unhe niche diya 6-character code type karne ko kahein.",
+    "loadingQR": "QR Code generate ho raha hai...",
+    "codeLabel": "6-Character Code",
+    "codeTypeHelper": "Woh ise Family Member mode mein type kar sakte hain.",
+    "expiresIn": "Code expire hoga",
+    "codeExpired": "Code expire ho gaya hai. Niche 'New code' dabayein.",
+    "newCodeButton": "New code",
+    "doneButton": "Done / Home Screen par jaayein",
+    "joinTitle": "Parent se Connect Karein",
+    "joinSub": "Parent ki screen par QR code scan karein ya unka 6-character code type karein.",
+    "tabScan": "QR Scan Karein",
+    "tabType": "Code Type Karein",
+    "scanHelp": "Parent ke phone ke QR code par camera point karein.",
+    "cameraBlockedNotice": "Camera permission block thi ya available nahi thi. Aap aasani se niche code type kar sakte hain.",
+    "guardianNameLabel": "Aapka naam ya relation",
+    "guardianNamePlaceholder": "Jaise: Beta, Priya, Son",
+    "codePrompt": "Parent se mila 6-Character Code",
+    "connectButton": "Family se Connect Karein",
+    "joining": "Connect ho rahe hain...",
+    "validCodeRequired": "Kripya valid 6-character pairing code enter karein",
+    "codeExpiredError": "Yeh pairing code invalid, expire ya use ho chuka hai. Kripya naya code maangein.",
+    "alreadyInFamilyError": "Aap pehle se ek family se jude hue hain.",
+    "connectError": "Family se connect nahi ho paye. Kripya connection check karein."
+  },
+  "alert": {
+    "emergencyTitle": "Pause Button Dabaya Gaya!",
+    "elderPressedPause": "ne Safety Pause button dabaya hai.",
+    "quickCallButton": "Quick Call",
+    "callingNowButton": "Main Abhi Call Kar Raha Hoon",
+    "dismiss": "Alert dismiss karein",
+    "addPhoneTitle": "Parent ka Phone Number Add Karein",
+    "saveAndCall": "Save Karein aur Call Milayein"
+  }
+}

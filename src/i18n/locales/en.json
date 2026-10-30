@@ -1,0 +1,261 @@
+{
+  "app": {
+    "name": "Family Firewall",
+    "byline": "by team Aurex",
+    "tagline": "Rehearse together. Pause together.",
+    "mission": "Teaches protective behavior. Does not detect scams and never claims to prevent them."
+  },
+  "roles": {
+    "parent": "I am the parent",
+    "parentSub": "Simple practice drills and one-tap Pause",
+    "family": "I am the family member",
+    "familySub": "Support, monitor drills, and stay connected"
+  },
+  "languages": {
+    "title": "Choose your language",
+    "en": "English",
+    "hi": "हिन्दी",
+    "hing": "Hinglish"
+  },
+  "nav": {
+    "back": "Back",
+    "home": "Home",
+    "settings": "Settings",
+    "exit": "Exit",
+    "close": "Close"
+  },
+  "welcome": {
+    "title": "Welcome to Family Firewall",
+    "subtitle": "Choose your language and your role to get started.",
+    "rolePrompt": "Who is using this app?"
+  },
+  "elderHome": {
+    "greeting": "Namaste! You are safe at home.",
+    "subtitle": "Rehearse calmly. Remember: Real police or courts never arrest anyone over video call.",
+    "practiceButton": "Practice a call",
+    "practiceSub": "Rehearse a simulated scam call safely",
+    "pressureButton": "I feel pressured",
+    "pressureSub": "Quick reassurance and safe next steps",
+    "callPersonButton": "Call my person",
+    "callPersonSub": "Direct call to your trusted contact",
+    "pauseButtonLabel": "PAUSE",
+    "pauseButtonSub": "One-tap Safety Pause",
+    "familyConnected": "Family Connected",
+    "familyConnectTitle": "Connect with Family",
+    "familyConnectSubtitle": "Link your family member to receive Pause alerts",
+    "alertsActive": "Safety alerts active",
+    "viewQR": "Show QR",
+    "pairButton": "Connect"
+  },
+  "familyHome": {
+    "title": "Family Member Dashboard",
+    "status": "Family Safety Hub",
+    "description": "Stay connected with your elders. Receive real-time Pause alerts and review completed drill outcomes.",
+    "switchRole": "Switch to Parent Role",
+    "notConnectedTitle": "Connect with Your Parent",
+    "notConnectedSub": "Pair your phone to receive instant Pause alerts and see drill practice outcomes.",
+    "pairNowButton": "Pair with Parent Phone",
+    "familyStatusTitle": "Family Protected",
+    "lastDrillTitle": "Latest Practice Drill",
+    "noDrillsYet": "No practice drills recorded yet. Your parent can practice anytime.",
+    "recentEvents": "Recent Safety Events",
+    "noEvents": "No alerts recorded yet. Family is safe.",
+    "pauseAlertTitle": "Emergency Pause Triggered",
+    "drillCompletedTitle": "Practice Drill Completed",
+    "acknowledge": "Acknowledge",
+    "leave": "Leave Family"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Adjust language, text size, and trusted contacts.",
+    "languageSection": "App Language",
+    "textSizeSection": "Text Size",
+    "textSizeNormal": "Normal (18px)",
+    "textSizeLarge": "Large (22px)",
+    "contactsSection": "Trusted Contacts",
+    "contactsSubtitle": "Add up to 3 contacts. Stored only on this device.",
+    "addContact": "Add Contact",
+    "contactName": "Full Name",
+    "contactRelation": "Relationship (e.g., Son, Daughter, Friend)",
+    "contactPhone": "Phone Number",
+    "contactPriority": "Priority",
+    "noContacts": "No trusted contacts added yet. Tap below to add one.",
+    "maxContactsReached": "Maximum of 3 contacts reached.",
+    "saveContact": "Save Contact",
+    "cancel": "Cancel",
+    "deleteContact": "Delete",
+    "callNow": "Call",
+    "roleSection": "Current Mode",
+    "roleParent": "Parent / Elder",
+    "roleFamily": "Family Member",
+    "changeRole": "Change Role",
+    "unlinkTitle": "Privacy & Family Unlink",
+    "unlinkDesc": "Disconnect from your family and permanently remove all local contacts, drill records, and settings from this phone.",
+    "unlinkButton": "Unlink family and delete my data",
+    "unlinkConfirmTitle": "Unlink & Delete All Data?",
+    "unlinkConfirmMessage": "This will remove your family link on the server and completely erase all contacts and drill history from this phone. You will return to the Welcome screen.",
+    "confirmUnlink": "Yes, Unlink & Delete Everything",
+    "wiping": "Erasing data..."
+  },
+  "pauseModal": {
+    "badge": "Safety Pause Activated",
+    "title": "Take a deep breath. You are safe.",
+    "ruleReminder": "Golden Rule: Real police, CBI, or judges NEVER place anyone under 'digital arrest' or interrogate over video call.",
+    "step1": "1. Disconnect the call immediately. You do not owe anyone on phone an explanation.",
+    "step2": "2. Take three calm, slow breaths.",
+    "step3": "3. Speak directly to your trusted family person before doing anything else.",
+    "step4": "4. Never transfer money, share OTPs, or buy gift cards.",
+    "actionCall": "Call My Person Now",
+    "actionAlert": "Alert Family Member",
+    "alertSent": "Alert recorded locally. Your family member is notified.",
+    "close": "I Am Safe Now"
+  },
+  "practiceModal": {
+    "tag": "Practice call",
+    "title": "Practice Drill Simulation",
+    "fictionalNotice": "Fictional Organization: Central Cyber Verification Bureau (Simulation Only)",
+    "body": "This is a safe training scenario to help you practice hanging up on fake official calls. Real enforcement officers never conduct court trials or demand money on video.",
+    "exitButton": "Exit Practice",
+    "startPrompt": "Deterministic drill engine will launch here in the next stage."
+  },
+  "pressureModal": {
+    "title": "Feeling Pressured?",
+    "reassurance": "Scammers create artificial panic and urgency to stop you from thinking clearly.",
+    "rule1": "No genuine government agency will demand an immediate secret money transfer.",
+    "rule2": "It is always 100% legal to disconnect and verify independently.",
+    "action": "Call your trusted family member now to double-check.",
+    "close": "Understood, thank you"
+  },
+  "callModal": {
+    "noContactTitle": "No Trusted Contact Found",
+    "noContactMessage": "Please add at least one trusted contact in Settings so you can call them with one tap.",
+    "goToSettings": "Go to Settings"
+  },
+  "outcomes": {
+    "safe": "Safe",
+    "almost": "Almost",
+    "tryAgain": "Let's try again"
+  },
+  "drill": {
+    "practiceTag": "Practice call",
+    "exit": "Exit",
+    "preDrill": {
+      "line1": "This is a safe practice call to rehearse how to handle pressure.",
+      "line2": "A family member can watch and practice along with you.",
+      "start": "Start practice",
+      "familyWatching": "Family member is watching"
+    },
+    "incoming": {
+      "callTitle": "Incoming Video Call",
+      "accept": "Accept Call",
+      "decline": "Decline Call",
+      "declineTitle": "Call Declined",
+      "declineMessage": "Declining unknown video calls is the exact right protective move. Real officers never conduct investigations or make arrests over video calls."
+    },
+    "call": {
+      "replayAudio": "Replay audio",
+      "audioNotRecorded": "audio not recorded",
+      "pressureMeter": "Pressure Meter",
+      "bands": {
+        "calm": "Calm",
+        "rising": "Rising",
+        "highPressure": "High pressure"
+      }
+    },
+    "debrief": {
+      "title": "Drill Debrief",
+      "safeMessage": "You protected yourself and your family. Great job recognizing the warning signs.",
+      "almostMessage": "Good effort. You paused or avoided the worst risks, but stay alert for identity and OTP requests.",
+      "tryAgainMessage": "Take a deep breath. Scammers create high pressure on purpose. Practice makes us stronger.",
+      "tacticsTitle": "Tactics the caller used",
+      "whatYouDidWell": "What you did well",
+      "nextTime": "One thing to try next time",
+      "pathMapTitle": "Your Path Map (The Butterfly Effect)",
+      "pathMapSub": "Shows the path you took versus the branches you avoided.",
+      "tryAgain": "Try again",
+      "home": "Home"
+    },
+    "tactics": {
+      "authority": "The caller pretended to be an official officer to make you obey without questioning.",
+      "urgency": "The caller created artificial time pressure so you could not stop to think.",
+      "isolation": "The caller demanded you stay alone and not speak to your family.",
+      "secrecy": "The caller insisted on total secrecy to keep trusted people from warning you.",
+      "fear": "The caller made scary threats of arrest or police action to panic you.",
+      "info_request": "The caller asked for sensitive identity details like your Aadhaar number or OTP.",
+      "payment_request": "The caller demanded money transfer to a supposed safe account."
+    },
+    "feedback": {
+      "wellHungUp": "You disconnected the call promptly when things felt suspicious.",
+      "wellToldSomeone": "You insisted on involving your family instead of staying isolated.",
+      "wellUsedPause": "You took a protective pause to think clearly before reacting.",
+      "wellCalm": "You stayed calm and observed the caller's tactics.",
+      "nextMoney": "Never send money or transfer funds to any account during an unsolicited call. Real police never ask for money transfers.",
+      "nextInfo": "Never share OTPs or personal identity details like Aadhaar over a call.",
+      "nextHangUp": "You can hang up immediately and press Pause or contact your trusted family member.",
+      "nextKeepPracticing": "Keep practicing! Hanging up early and consulting family is always the safest move."
+    }
+  },
+  "consent": {
+    "badge": "Family Privacy Promise",
+    "title": "Before You Connect Family",
+    "elderSubtitle": "You stay in complete control. Your personal phone calls and safe word NEVER leave this phone.",
+    "guardianSubtitle": "Family Firewall connects you for safety alerts and practice outcomes only. Personal conversations are never shared.",
+    "willSeeTitle": "What your family will see:",
+    "willSeePause": "When you tap the orange Pause button",
+    "willSeeDrill": "Practice drill outcomes (Safe, Almost, Let's try again)",
+    "willSeeTime": "Date and time of safety alerts",
+    "willNotSeeTitle": "What your family will NEVER see:",
+    "willNotSeeCalls": "Phone calls or who you talk to",
+    "willNotSeeAudio": "Audio recordings or call transcripts",
+    "willNotSeeContacts": "Your safe word, contacts, or phone numbers",
+    "willNotSeeMessages": "Private messages, chats, or passwords",
+    "agreeButton": "I Agree & Continue",
+    "cancelButton": "Cancel"
+  },
+  "pairing": {
+    "parentTitle": "Connect with Family",
+    "guardianTitle": "Join Family",
+    "parentNameTitle": "What should your family call you?",
+    "parentNameSub": "Enter your first name or a nickname like Dad, Papa, or Mataji.",
+    "nameLabel": "Your name or nickname",
+    "namePlaceholder": "e.g. Papa, Ramesh, Dad",
+    "nameRequired": "Please enter your first name or nickname",
+    "createFamilyButton": "Create Family & Show Code",
+    "creating": "Setting up family...",
+    "createError": "Could not create family. Please check connection.",
+    "familyReady": "Family Connected",
+    "scanPrompt": "Ask your family member to scan this QR code",
+    "scanSub": "Or ask them to type the 6-character code below.",
+    "loadingQR": "Generating QR Code...",
+    "codeLabel": "6-Character Code",
+    "codeTypeHelper": "They can type this in Family Member mode.",
+    "expiresIn": "Code expires in",
+    "codeExpired": "Code expired. Tap \"New code\" below.",
+    "newCodeButton": "New code",
+    "doneButton": "Done / Back to Home",
+    "joinTitle": "Connect with Parent",
+    "joinSub": "Scan the QR code on your parent’s screen, or type their 6-character code.",
+    "tabScan": "Scan QR",
+    "tabType": "Type Code",
+    "scanHelp": "Point your camera at the QR code on the parent’s phone.",
+    "cameraBlockedNotice": "Camera access was blocked or unavailable. You can easily type the 6-character code below.",
+    "guardianNameLabel": "Your name or relation",
+    "guardianNamePlaceholder": "e.g. Beta, Priya, Son",
+    "codePrompt": "6-Character Code from Parent",
+    "connectButton": "Connect to Family",
+    "joining": "Connecting...",
+    "validCodeRequired": "Please enter a valid 6-character pairing code",
+    "codeExpiredError": "This pairing code is invalid, expired, or already used. Please ask your parent to generate a fresh code.",
+    "alreadyInFamilyError": "You are already connected to a family.",
+    "connectError": "Could not connect to family. Please check your connection."
+  },
+  "alert": {
+    "emergencyTitle": "Pause Button Pressed!",
+    "elderPressedPause": "activated the Safety Pause button.",
+    "quickCallButton": "Quick Call",
+    "callingNowButton": "I'm Calling Now",
+    "dismiss": "Dismiss alert",
+    "addPhoneTitle": "Add Parent's Phone",
+    "saveAndCall": "Save & Call Now"
+  }
+}

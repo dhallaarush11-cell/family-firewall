@@ -1,0 +1,31 @@
+{
+ "id": "digital_arrest", "version": 1, "start": "n1",
+ "title": {"en": "Digital arrest video call", "hing": "Digital arrest wali video call", "hi": "डिजिटल अरेस्ट वाली वीडियो कॉल"},
+ "caller": {"en": "Central Cyber Verification Bureau", "hing": "Central Cyber Verification Bureau", "hi": "सेंट्रल साइबर वेरिफिकेशन ब्यूरो"},
+ "nodes": {
+  "n1": {"speaker": "caller", "tactics": ["authority", "fear"], "pressureDelta": 20,
+   "text": {"en": "Hello. I am an officer from the Central Cyber Verification Bureau. A parcel in your name was found with illegal items. This is a serious case.", "hing": "Namaste. Main Central Cyber Verification Bureau se bol raha hoon. Aapke naam ke ek parcel mein gair-kanooni saaman mila hai. Yeh gambhir mamla hai.", "hi": "नमस्ते। मैं सेंट्रल साइबर वेरिफिकेशन ब्यूरो से बोल रहा हूँ। आपके नाम का एक पार्सल पकड़ा गया है जिसमें ग़ैरक़ानूनी सामान है। यह गंभीर मामला है।"},
+   "options": [
+    {"id": "a", "flags": ["hung_up", "told_someone"], "next": "END", "label": {"en": "Hang up and call my family", "hing": "Phone kaat ke ghar walon ko call karo", "hi": "फ़ोन काटना और घरवालों को फ़ोन करना"}},
+    {"id": "b", "flags": [], "calm": true, "next": "n2", "label": {"en": "Wait, I need to check with the department myself", "hing": "Ruko, pehle mujhe department se khud baat karni hai", "hi": "रुकिए, पहले मुझे विभाग से ख़ुद बात करनी है"}},
+    {"id": "c", "flags": [], "next": "n2", "label": {"en": "Okay, stay on the call", "hing": "Theek hai, call par bane raho", "hi": "ठीक है, कॉल पर बने रहना"}}]},
+  "n2": {"speaker": "caller", "tactics": ["authority", "isolation", "secrecy", "fear"], "pressureDelta": 25,
+   "text": {"en": "You are now under digital arrest. Keep your camera on. Do not end this call and do not tell anyone, or you will be arrested.", "hing": "Aap abhi digital arrest mein hain. Camera on rakhiye, call mat kaatiye aur kisi ko mat bataiye, warna aapko giraftaar kar liya jayega.", "hi": "आप अभी डिजिटल अरेस्ट में हैं। कैमरा चालू रखिए, कॉल मत काटिए और किसी को मत बताइए, वरना आपको गिरफ़्तार कर लिया जाएगा।"},
+   "options": [
+    {"id": "a", "flags": ["hung_up", "told_someone"], "next": "END", "label": {"en": "Hang up and call my family", "hing": "Phone kaat ke ghar walon ko call karo", "hi": "फ़ोन काटना और घरवालों को फ़ोन करना"}},
+    {"id": "b", "flags": ["told_someone"], "next": "n3", "label": {"en": "I need to tell my family", "hing": "Mujhe apne parivaar ko batana hai", "hi": "मुझे अपने परिवार को बताना है"}},
+    {"id": "c", "flags": [], "next": "n3", "label": {"en": "Keep the camera on and listen", "hing": "Camera on rakhna aur sunna", "hi": "कैमरा चालू रखना और सुनना"}}]},
+  "n3": {"speaker": "caller", "tactics": ["authority", "info_request"], "pressureDelta": 15,
+   "text": {"en": "To clear your name, verify your identity now. Read out your Aadhaar number and the OTP you will receive.", "hing": "Apna naam saaf karne ke liye abhi pehchaan verify kijiye. Apna Aadhaar number aur jo OTP aayega, woh bataiye.", "hi": "अपना नाम साफ़ करने के लिए अभी पहचान की पुष्टि कीजिए। अपना आधार नंबर और जो ओटीपी आएगा, वह बताइए।"},
+   "options": [
+    {"id": "a", "flags": ["hung_up"], "next": "END", "label": {"en": "Hang up", "hing": "Phone kaat dena", "hi": "फ़ोन काट देना"}},
+    {"id": "b", "flags": ["shared_info", "shared_otp"], "next": "n4", "label": {"en": "Give Aadhaar and OTP", "hing": "Aadhaar aur OTP bata dena", "hi": "आधार और ओटीपी बता देना"}},
+    {"id": "c", "flags": ["used_pause", "told_someone"], "next": "END", "label": {"en": "Share nothing and press Pause", "hing": "Kuch nahi batana, Pause dabana", "hi": "कुछ नहीं बताना, पॉज़ दबाना"}}]},
+  "n4": {"speaker": "caller", "tactics": ["payment_request", "urgency", "fear"], "pressureDelta": 20,
+   "text": {"en": "Your accounts are being investigated. Move your money to our safe account within 30 minutes or everything will be frozen.", "hing": "Aapke accounts ki jaanch ho rahi hai. 30 minute ke andar apna paisa hamare safe account mein bhej dijiye, warna sab freeze ho jayega.", "hi": "आपके खातों की जाँच हो रही है। 30 मिनट के अंदर अपना पैसा हमारे सुरक्षित खाते में भेज दीजिए, वरना सब कुछ फ़्रीज़ हो जाएगा।"},
+   "options": [
+    {"id": "a", "flags": ["hung_up"], "next": "END", "label": {"en": "Hang up", "hing": "Phone kaat dena", "hi": "फ़ोन काट देना"}},
+    {"id": "b", "flags": ["used_pause", "told_someone"], "next": "END", "label": {"en": "Press Pause", "hing": "Pause dabana", "hi": "पॉज़ दबाना"}},
+    {"id": "c", "flags": ["moved_money"], "next": "END", "label": {"en": "Send the money", "hing": "Paise bhej dena", "hi": "पैसे भेज देना"}}]}
+ }
+}
