@@ -1,0 +1,4 @@
+[build.environment]
+  # The Supabase URL and anon key are public by design (access is enforced by
+  # Row Level Security), and Vite inlines VITE_* vars into the client bundle.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
