@@ -10,6 +10,9 @@ import { FamilyPairingScreen } from './screens/FamilyPairingScreen';
 import { SafeWordScreen } from './screens/SafeWordScreen';
 import { PactCardScreen } from './screens/PactCardScreen';
 import { PrivacyProofScreen } from './screens/PrivacyProofScreen';
+import { InstallPromptScreen } from './screens/InstallPromptScreen';
+import { DemoScreen } from './screens/DemoScreen';
+import { PilotLoggerScreen } from './screens/PilotLoggerScreen';
 import { getProfile, getSetting } from './db';
 import { ensureAuthUser } from './db/supabase';
 import { initOutboxWorker } from './db/outbox';
@@ -77,6 +80,9 @@ export const App: React.FC = () => {
         <Route path="/safeword" element={<SafeWordScreen />} />
         <Route path="/pact" element={<PactCardScreen />} />
         <Route path="/privacy-proof" element={<PrivacyProofScreen />} />
+        <Route path="/install" element={<InstallPromptScreen />} />
+        <Route path="/demo" element={<DemoScreen />} />
+        <Route path="/pilot-logger" element={<PilotLoggerScreen />} />
         <Route path="*" element={<Navigate to="/welcome" replace />} />
       </Routes>
     </BrowserRouter>

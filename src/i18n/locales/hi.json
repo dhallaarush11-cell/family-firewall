@@ -631,5 +631,25 @@
     "_TODO_REVIEW_pactCardSub": "TODO_REVIEW",
     "privacyProofLink": "प्राइवेसी प्रूफ़ और डेटा सुरक्षा",
     "_TODO_REVIEW_privacyProofLink": "TODO_REVIEW"
+  },
+  "offline": {
+    "bannerMessage": "आप ऑफ़लाइन हैं: अभ्यास और पॉज़ मार्गदर्शन अभी भी काम करते हैं।",
+    "_TODO_REVIEW_bannerMessage": "TODO_REVIEW",
+    "reassurance": "अभ्यास और पॉज़ मार्गदर्शन काम कर रहे हैं।",
+    "_TODO_REVIEW_reassurance": "TODO_REVIEW"
+  },
+  "install": {
+    "title": "फ़ोन पर इंस्टॉल करें",
+    "_TODO_REVIEW_title": "TODO_REVIEW",
+    "heading": "फ़ोन पर फैमिली फ़ायरवॉल इंस्टॉल करें",
+    "_TODO_REVIEW_heading": "TODO_REVIEW",
+    "subtitle": "एक-टैप आपातकालीन पॉज़ और बिना इंटरनेट अभ्यास के लिए अपनी होम स्क्रीन पर जोड़ें।",
+    "_TODO_REVIEW_subtitle": "TODO_REVIEW",
+    "installedTitle": "ऐप इंस्टॉल हो गया है!",
+    "_TODO_REVIEW_installedTitle": "TODO_REVIEW",
+    "offlineBadge": "एक बार लोड होने के बाद 100% ऑफ़लाइन काम करता है",
+    "_TODO_REVIEW_offlineBadge": "TODO_REVIEW",
+    "installNowButton": "अभी ऐप इंस्टॉल करें",
+    "_TODO_REVIEW_installNowButton": "TODO_REVIEW"
   }
 }

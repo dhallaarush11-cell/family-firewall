@@ -8,7 +8,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'fonts/*.ttf', 'shield-icon.svg', 'pwa-192x192.svg', 'pwa-512x512.svg'],
+      includeAssets: [
+        'favicon.svg',
+        'fonts/*.ttf',
+        'shield-icon.svg',
+        'pwa-192x192.svg',
+        'pwa-512x512.svg',
+        'audio/**/*.mp3'
+      ],
       manifest: {
         name: 'Family Firewall',
         short_name: 'FamilyFirewall',
@@ -34,7 +41,10 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf,json}']
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg,ttf,woff,woff2,json,mp3,wav}'
+        ],
+        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024 // 6MB to cache bundled fonts and audio
       }
     })
   ],

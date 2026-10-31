@@ -16,7 +16,8 @@ import {
   ShieldCheck,
   KeyRound,
   FileText,
-  Radio
+  Radio,
+  Smartphone
 } from 'lucide-react';
 import { HeaderBar } from '../components/HeaderBar';
 import { ReadAloudButton } from '../components/ReadAloudButton';
@@ -497,6 +498,28 @@ export const SettingsScreen: React.FC = () => {
                   </span>
                   <span className="text-xs text-brown-dark/70 font-medium">
                     Printable PDF with golden rules & contacts
+                  </span>
+                </div>
+              </div>
+              <ArrowRight size={18} className="text-teal-deep shrink-0" />
+            </button>
+
+            {/* Install on Phone Link */}
+            <button
+              type="button"
+              onClick={() => navigate('/install')}
+              className="w-full min-h-[56px] p-3.5 rounded-xl bg-cream/40 hover:bg-cream border border-teal-deep/20 flex items-center justify-between text-left transition-card"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-cream text-teal-deep border border-teal-deep/30 flex items-center justify-center shrink-0">
+                  <Smartphone size={20} />
+                </div>
+                <div>
+                  <span className="block font-bold text-base text-teal-deep leading-tight">
+                    Install on Phone (Offline App)
+                  </span>
+                  <span className="text-xs text-brown-dark/70 font-medium">
+                    Add to home screen for offline access anytime
                   </span>
                 </div>
               </div>

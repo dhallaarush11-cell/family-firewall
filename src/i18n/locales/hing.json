@@ -346,5 +346,17 @@
     "pactCardTitle": "Family Pact Card",
     "pactCardSub": "Rules aur contacts ke saath printable PDF card",
     "privacyProofLink": "Privacy Proof aur Cloud Safety"
+  },
+  "offline": {
+    "bannerMessage": "Aap offline hain: practice aur Pause guidance abhi bhi chalte hain.",
+    "reassurance": "Practice aur Pause guidance chal rahe hain."
+  },
+  "install": {
+    "title": "Phone par Install Karein",
+    "heading": "Phone par Family Firewall Install Karein",
+    "subtitle": "One-tap emergency Pause aur bina internet practice ke liye home screen par add karein.",
+    "installedTitle": "App Install ho chuka hai!",
+    "offlineBadge": "Ek baar load hone ke baad 100% offline kaam karta hai",
+    "installNowButton": "Abhi App Install Karein"
   }
 }

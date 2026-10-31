@@ -20,6 +20,7 @@ import {
 import { HeaderBar } from '../components/HeaderBar';
 import { ReadAloudButton } from '../components/ReadAloudButton';
 import {
+  db,
   getTrustedContacts,
   addTrustedContact,
   saveProfile,
@@ -54,6 +55,7 @@ interface LastDrillSession {
   refused_otp: boolean;
   pause_used: boolean;
   created_at: string;
+  is_sample?: boolean;
 }
 
 // Deterministic Web Audio synthesizer for emergency alert sound
@@ -138,9 +140,34 @@ export const FamilyHomeScreen: React.FC = () => {
         await loadFamilyMembers(mem.family_id);
         await loadEvents(mem.family_id);
         await loadDrillSessions(mem.family_id);
+      } else {
+        await loadLocalDrillsFallback();
       }
     } catch (e) {
       console.warn('Data load error:', e);
+    }
+  };
+
+  const loadLocalDrillsFallback = async () => {
+    try {
+      const localDrills = await db.drillHistory.reverse().sortBy('timestamp');
+      if (localDrills.length > 0) {
+        const mapped: LastDrillSession[] = localDrills.map(d => ({
+          id: String(d.id || Math.random()),
+          scenario_id: d.scenarioId,
+          outcome: d.outcome,
+          hung_up: d.flags.includes('hung_up'),
+          refused_money: !d.flags.includes('moved_money'),
+          refused_otp: !d.flags.includes('shared_otp'),
+          pause_used: d.flags.includes('used_pause'),
+          created_at: new Date(d.timestamp).toISOString(),
+          is_sample: d.notes === 'sample data (demo only)' || d.flags.includes('sample_data_demo_only')
+        }));
+        setDrillSessions(mapped);
+        setLastDrill(mapped[0]);
+      }
+    } catch (e) {
+      console.warn('Local drills fallback load notice:', e);
     }
   };
 
@@ -188,15 +215,16 @@ export const FamilyHomeScreen: React.FC = () => {
         .order('created_at', { ascending: false })
         .limit(10);
 
-      if (!error && data) {
+      if (!error && data && data.length > 0) {
         const sessions = data as LastDrillSession[];
         setDrillSessions(sessions);
-        if (sessions.length > 0) {
-          setLastDrill(sessions[0]);
-        }
+        setLastDrill(sessions[0]);
+      } else {
+        await loadLocalDrillsFallback();
       }
     } catch (err) {
       console.warn('Drill sessions load error:', err);
+      await loadLocalDrillsFallback();
     }
   };
 
@@ -504,9 +532,16 @@ export const FamilyHomeScreen: React.FC = () => {
               {lastDrill ? (
                 <div className="p-4 bg-cream/30 rounded-card border border-teal-deep/15 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-brown-dark text-base">
-                      Digital Arrest Simulation
-                    </span>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-brown-dark text-base">
+                        Digital Arrest Simulation
+                      </span>
+                      {lastDrill.is_sample && (
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                          sample data (demo only)
+                        </span>
+                      )}
+                    </div>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
                         lastDrill.outcome === 'safe'

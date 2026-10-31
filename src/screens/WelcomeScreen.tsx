@@ -1,15 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ShieldCheck, UserCheck, Users, Sparkles } from 'lucide-react';
 import { ReadAloudButton } from '../components/ReadAloudButton';
-import { saveProfile, getProfile } from '../db';
+import { OfflineBanner } from '../components/OfflineBanner';
+import { saveProfile, getProfile, setSetting } from '../db';
 
 export const WelcomeScreen: React.FC = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language || 'en');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLargeText, setIsLargeText] = useState<boolean>(() => {
+    return document.body.classList.contains('text-size-large');
+  });
+
+  // 7-tap detector for hidden Demo Mode
+  const tapCountRef = useRef<number>(0);
+  const lastTapTimeRef = useRef<number>(0);
+
+  const handleTitleTap = () => {
+    const now = Date.now();
+    if (now - lastTapTimeRef.current < 2000) {
+      tapCountRef.current += 1;
+    } else {
+      tapCountRef.current = 1;
+    }
+    lastTapTimeRef.current = now;
+
+    if (tapCountRef.current >= 7) {
+      tapCountRef.current = 0;
+      navigate('/demo');
+    }
+  };
+
+  const handleToggleTextSize = async () => {
+    const newIsLarge = !isLargeText;
+    setIsLargeText(newIsLarge);
+    if (newIsLarge) {
+      document.body.classList.add('text-size-large');
+      await setSetting('textSize', 'large');
+    } else {
+      document.body.classList.remove('text-size-large');
+      await setSetting('textSize', 'normal');
+    }
+    window.dispatchEvent(new Event('text-size-change'));
+  };
+
+  useEffect(() => {
+    const handleTextChange = () => {
+      setIsLargeText(document.body.classList.contains('text-size-large'));
+    };
+    window.addEventListener('text-size-change', handleTextChange);
+    return () => window.removeEventListener('text-size-change', handleTextChange);
+  }, []);
 
   useEffect(() => {
     // Check if profile already exists
@@ -54,13 +98,39 @@ export const WelcomeScreen: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-cream flex flex-col justify-between p-4 sm:p-6 max-w-lg mx-auto">
+      <OfflineBanner />
+
+      {/* Top Bar with Text Size Toggle */}
+      <div className="flex justify-end pt-2 pb-1">
+        <button
+          type="button"
+          onClick={handleToggleTextSize}
+          aria-label={isLargeText ? 'Switch to normal text size' : 'Switch to large text size'}
+          title={isLargeText ? 'Normal text' : 'Large text'}
+          className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center font-black text-sm transition-card active:scale-95"
+        >
+          <span className="text-xs font-semibold mr-0.5">A</span>
+          <span className="text-base font-extrabold leading-none">A</span>
+        </button>
+      </div>
+
       {/* Top Branding */}
-      <div className="pt-6 sm:pt-8 text-center">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-teal-deep text-cream shadow-elevated mb-4 border-2 border-teal-deep/30">
+      <div className="pt-2 sm:pt-4 text-center">
+        <div
+          onClick={handleTitleTap}
+          role="button"
+          tabIndex={0}
+          aria-label="Family Firewall logo. Tap 7 times for Demo Mode."
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-teal-deep text-cream shadow-elevated mb-4 border-2 border-teal-deep/30 cursor-pointer select-none active:scale-95 transition-transform"
+        >
           <ShieldCheck size={48} className="text-cream" />
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-deep tracking-tight">
+        <h1
+          onClick={handleTitleTap}
+          className="text-3xl sm:text-4xl font-extrabold text-teal-deep tracking-tight cursor-pointer select-none"
+          title="Tap 7 times for Demo Mode"
+        >
           {t('app.name')}
         </h1>
 

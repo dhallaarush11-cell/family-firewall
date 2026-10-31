@@ -346,5 +346,17 @@
     "pactCardTitle": "Family Pact Card",
     "pactCardSub": "Download printable PDF card with rules & contacts",
     "privacyProofLink": "Privacy Proof & Cloud Telemetry Audit"
+  },
+  "offline": {
+    "bannerMessage": "You are offline: practice and Pause guidance still work.",
+    "reassurance": "Practice and Pause guidance still work."
+  },
+  "install": {
+    "title": "Install Family Firewall",
+    "heading": "Use Family Firewall on Your Phone",
+    "subtitle": "Install on your home screen for one-tap emergency Pause, zero data lag, and full offline rehearsal anytime.",
+    "installedTitle": "App is Installed!",
+    "offlineBadge": "Works 100% offline after one online load",
+    "installNowButton": "Install App Now"
   }
 }

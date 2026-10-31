@@ -36,10 +36,32 @@ body {
   min-height: 100vh;
 }
 
-/* Accessibility: Large Text mode */
+/* Accessibility: Large Text mode - scales all typography smoothly across all screens */
 body.text-size-large {
   --base-font-size: 22px;
   line-height: 1.7;
+}
+
+body.text-size-large p,
+body.text-size-large span,
+body.text-size-large a,
+body.text-size-large button,
+body.text-size-large label,
+body.text-size-large input,
+body.text-size-large select,
+body.text-size-large textarea,
+body.text-size-large h1,
+body.text-size-large h2,
+body.text-size-large h3,
+body.text-size-large h4,
+body.text-size-large li {
+  font-size: 1.12em;
+}
+
+/* Accessible visible focus states */
+*:focus-visible {
+  outline: 3px solid #0B4F4A !important;
+  outline-offset: 2px !important;
 }
 
 /* Touch targets and buttons */

@@ -132,3 +132,18 @@ import type { Scenario } from '../engine/types';
 export const DIGITAL_ARREST_SCENARIO: Scenario = digitalArrestJson as Scenario;
 export { digitalArrestJson };
 
+export interface AvailableScenario {
+  id: string;
+  name: string;
+  scenario: Scenario;
+}
+
+export const AVAILABLE_SCENARIOS: AvailableScenario[] = [
+  {
+    id: DIGITAL_ARREST_SCENARIO.id,
+    name: 'Digital Arrest',
+    scenario: DIGITAL_ARREST_SCENARIO
+  }
+];
+
+

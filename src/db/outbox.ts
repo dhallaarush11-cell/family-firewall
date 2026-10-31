@@ -32,7 +32,8 @@ export async function queueOutboxEvent(
  */
 export async function processOutbox(): Promise<void> {
   if (isProcessing) return;
-  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+  const isForceOffline = typeof window !== 'undefined' && localStorage.getItem('demo_force_offline') === 'true';
+  if ((typeof navigator !== 'undefined' && !navigator.onLine) || isForceOffline) {
     return;
   }
 

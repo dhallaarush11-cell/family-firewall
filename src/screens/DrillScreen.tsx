@@ -21,6 +21,8 @@ import { DrillPathMap } from '../components/DrillPathMap';
 import { PauseShieldButton } from '../components/PauseShieldButton';
 import { PauseModal } from '../components/PauseModal';
 import { ReadAloudButton } from '../components/ReadAloudButton';
+import { OfflineBanner } from '../components/OfflineBanner';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { saveDrillResult } from '../db';
 import type { Outcome, Tactic } from '../engine/types';
 
@@ -221,24 +223,30 @@ export const DrillScreen: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-cream text-brown-dark flex flex-col justify-between p-4 sm:p-6 max-w-lg mx-auto">
+      <OfflineBanner />
+
       {/* Top Header: HARD RULE 4 - Always visible 'Practice call' tag & always visible 'Exit' button */}
-      <header className="flex items-center justify-between pb-3 border-b-2 border-teal-deep/15">
+      <header className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b-2 border-teal-deep/15">
         {/* Visible 'Practice call' tag */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-deep text-cream font-extrabold text-sm sm:text-base tracking-wide border border-teal-deep/30 shadow-sm">
           <span className="w-2.5 h-2.5 rounded-full bg-terracotta animate-pulse" />
           <span>{t('drill.practiceTag', 'Practice call')}</span>
         </div>
 
-        {/* Always-visible Exit button */}
-        <button
-          type="button"
-          onClick={handleExit}
-          className="min-h-[44px] px-4 py-2 rounded-full bg-white text-terracotta hover:bg-terracotta hover:text-white border-2 border-terracotta/40 font-bold text-base transition-card flex items-center gap-1.5 shadow-sm active:scale-95"
-          aria-label={t('drill.exit', 'Exit')}
-        >
-          <LogOut size={18} />
-          <span>{t('drill.exit', 'Exit')}</span>
-        </button>
+        {/* Right side: Language switcher and always-visible Exit button */}
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher variant="compact" />
+
+          <button
+            type="button"
+            onClick={handleExit}
+            className="min-h-[44px] px-3.5 py-2 rounded-full bg-white text-terracotta hover:bg-terracotta hover:text-white border-2 border-terracotta/40 font-bold text-base transition-card flex items-center gap-1.5 shadow-sm active:scale-95"
+            aria-label={t('drill.exit', 'Exit')}
+          >
+            <LogOut size={18} />
+            <span>{t('drill.exit', 'Exit')}</span>
+          </button>
+        </div>
       </header>
 
       {/* Main Screen Content */}
