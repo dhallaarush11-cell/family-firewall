@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck, UserCheck, Users, Sparkles } from 'lucide-react';
+import { UserCheck, Users, Sparkles } from 'lucide-react';
 import { ReadAloudButton } from '../components/ReadAloudButton';
 import { OfflineBanner } from '../components/OfflineBanner';
 import { saveProfile, getProfile, setSetting } from '../db';
@@ -116,14 +116,17 @@ export const WelcomeScreen: React.FC = () => {
 
       {/* Top Branding */}
       <div className="pt-2 sm:pt-4 text-center">
-        <div
-          onClick={handleTitleTap}
-          role="button"
-          tabIndex={0}
-          aria-label="Family Firewall logo. Tap 7 times for Demo Mode."
-          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-teal-deep text-cream shadow-elevated mb-4 border-2 border-teal-deep/30 cursor-pointer select-none active:scale-95 transition-transform"
-        >
-          <ShieldCheck size={48} className="text-cream" />
+        <div className="flex justify-center mb-4">
+          <img
+            src="/logo-full-640.png"
+            alt="Family Firewall. Rehearse together. Pause together."
+            width={200}
+            height={197}
+            loading="eager"
+            onClick={handleTitleTap}
+            className="w-[200px] h-auto object-contain cursor-pointer select-none active:scale-95 transition-transform"
+            title="Family Firewall (Tap 7 times for Demo Mode)"
+          />
         </div>
 
         <h1

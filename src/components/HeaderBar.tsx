@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Home, Settings as SettingsIcon, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Home, Settings as SettingsIcon } from 'lucide-react';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { OfflineBanner } from './OfflineBanner';
 import { setSetting } from '../db';
@@ -53,11 +53,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
     window.dispatchEvent(new Event('text-size-change'));
   };
 
-  // 7-tap detector for hidden Demo Mode
+  // 7-tap detector on logo for hidden Demo Mode
   const tapCountRef = useRef<number>(0);
   const lastTapTimeRef = useRef<number>(0);
 
-  const handleTitleTap = () => {
+  const handleLogoTap = () => {
     const now = Date.now();
     if (now - lastTapTimeRef.current < 2000) {
       tapCountRef.current += 1;
@@ -87,18 +87,18 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
       {/* Offline and Force Offline Reassurance Banner */}
       <OfflineBanner />
 
-      <header className="sticky top-0 z-30 w-full bg-cream/95 backdrop-blur border-b border-teal-deep/10 px-4 py-3">
-        <div className="max-w-md mx-auto flex items-center justify-between gap-2">
-          {/* Navigation Action: Back or Home */}
-          <div className="flex items-center gap-1">
+      <header className="sticky top-0 z-30 w-full max-w-full bg-cream/95 backdrop-blur border-b border-teal-deep/10 px-2 sm:px-4 py-2 sm:py-3 overflow-hidden">
+        <div className="max-w-md mx-auto flex items-center justify-between gap-1.5 sm:gap-2">
+          {/* Left Action / Logo */}
+          <div className="flex items-center gap-1 shrink-0">
             {showBack && !isWelcome && (
               <button
                 type="button"
                 onClick={handleBack}
                 aria-label={t('nav.back', 'Back')}
-                className="min-h-[48px] min-w-[48px] p-2.5 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card"
+                className="h-10 w-10 sm:h-11 sm:w-11 p-2 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card shrink-0"
               >
-                <ArrowLeft size={22} />
+                <ArrowLeft size={20} />
               </button>
             )}
 
@@ -107,40 +107,62 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
                 type="button"
                 onClick={() => navigate('/elder')}
                 aria-label={t('nav.home', 'Home')}
-                className="min-h-[48px] min-w-[48px] p-2.5 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card"
+                className="h-10 w-10 sm:h-11 sm:w-11 p-2 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card shrink-0"
               >
-                <Home size={22} />
+                <Home size={20} />
               </button>
             )}
 
-            {isWelcome && (
+            {/* Logo with 7-tap gesture for Demo Mode */}
+            {isWelcome ? (
               <button
                 type="button"
-                onClick={handleTitleTap}
-                className="flex items-center gap-2 text-teal-deep font-bold text-lg text-left select-none focus:outline-none"
-                aria-label="Family Firewall logo"
+                onClick={handleLogoTap}
+                className="flex items-center gap-2 text-teal-deep font-bold text-left select-none focus:outline-none"
+                aria-label="Family Firewall"
+                title="Family Firewall (Tap 7 times for Demo Mode)"
               >
-                <div className="w-10 h-10 rounded-full bg-teal-deep text-cream flex items-center justify-center shadow-sm">
-                  <ShieldCheck size={24} />
-                </div>
-                <span className="leading-tight text-xl font-black">Family Firewall</span>
+                <img
+                  src="/logo-icon-256.png"
+                  alt="Family Firewall"
+                  width={45}
+                  height={40}
+                  loading="eager"
+                  className="h-10 w-auto object-contain select-none shrink-0"
+                />
+                <span className="leading-tight text-lg sm:text-xl font-black truncate">Family Firewall</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleLogoTap}
+                aria-label="Family Firewall"
+                title="Family Firewall (Tap 7 times for Demo Mode)"
+                className="h-10 w-[45px] shrink-0 p-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-deep/30 transition-transform active:scale-95 flex items-center justify-center"
+              >
+                <img
+                  src="/logo-icon-256.png"
+                  alt="Family Firewall"
+                  width={45}
+                  height={40}
+                  loading="eager"
+                  className="h-10 w-auto object-contain select-none shrink-0"
+                />
               </button>
             )}
           </div>
 
-          {/* Center Title with 7-tap detector */}
+          {/* Center Title */}
           {title && !isWelcome && (
             <h1
-              onClick={handleTitleTap}
-              className="text-xl font-bold text-brown-dark truncate text-center flex-1 px-1 cursor-pointer select-none"
-              title="Tap 7 times to open Demo Mode"
+              className="text-sm sm:text-base md:text-lg font-bold text-brown-dark truncate text-center flex-1 px-1 select-none min-w-0"
             >
               {title}
             </h1>
           )}
 
           {/* Right Side: Language Switcher, Text Size, and Settings */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             <LanguageSwitcher variant="compact" />
 
             <button
@@ -148,7 +170,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
               onClick={handleToggleTextSize}
               aria-label={isLargeText ? 'Switch to normal text size' : 'Switch to large text size'}
               title={isLargeText ? 'Normal text size (18px)' : 'Large text size (22px)'}
-              className={`min-h-[44px] min-w-[44px] px-2.5 py-1.5 rounded-full border shadow-sm flex items-center justify-center font-black text-xs transition-card active:scale-95 ${
+              className={`h-10 w-10 sm:h-11 sm:w-11 rounded-full border shadow-sm flex items-center justify-center font-black text-xs transition-card active:scale-95 shrink-0 ${
                 isLargeText
                   ? 'bg-teal-deep text-cream border-teal-deep'
                   : 'bg-white text-teal-deep hover:bg-cream border-teal-deep/20'
@@ -163,9 +185,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
                 type="button"
                 onClick={() => navigate('/settings')}
                 aria-label={t('nav.settings', 'Settings')}
-                className="min-h-[44px] min-w-[44px] p-2.5 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card"
+                className="h-10 w-10 sm:h-11 sm:w-11 p-2 rounded-full bg-white text-teal-deep hover:bg-cream border border-teal-deep/20 shadow-sm flex items-center justify-center transition-card shrink-0"
               >
-                <SettingsIcon size={20} />
+                <SettingsIcon size={18} />
               </button>
             )}
           </div>

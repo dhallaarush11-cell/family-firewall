@@ -46,6 +46,23 @@ export const PactCardScreen: React.FC = () => {
         format: 'a4'
       });
 
+      // Pre-load logo image for PDF top corner
+      let logoDataUrl: string | null = null;
+      try {
+        const response = await fetch('/logo-icon-256.png');
+        if (response.ok) {
+          const blob = await response.blob();
+          logoDataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+        }
+      } catch (err) {
+        console.warn('Could not load logo for PDF card:', err);
+      }
+
       // Helper to render a pact card page
       const renderPactPage = (languageMode: 'en' | 'hi' | 'hing') => {
         // Page border & background
@@ -56,6 +73,15 @@ export const PactCardScreen: React.FC = () => {
         // Inner header border
         doc.setFillColor(242, 248, 246);
         doc.roundedRect(18, 18, 174, 38, 3, 3, 'F');
+
+        // Logo in top corner of the card
+        if (logoDataUrl) {
+          try {
+            doc.addImage(logoDataUrl, 'PNG', 24, 21, 16, 14.25);
+          } catch (imgErr) {
+            console.warn('Could not add logo to PDF:', imgErr);
+          }
+        }
 
         // Header Title
         doc.setFont('helvetica', 'bold');
@@ -285,9 +311,18 @@ export const PactCardScreen: React.FC = () => {
         >
           {/* Card Header */}
           <div className="text-center pb-4 border-b-2 border-teal-deep/20 space-y-2">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-cream text-teal-deep font-black text-xs uppercase tracking-widest">
-              <ShieldCheck size={18} />
-              <span>{t('pact.badge', 'Family Defense Commitment')}</span>
+            <div className="flex items-center justify-center gap-2">
+              <img
+                src="/logo-icon-256.png"
+                alt="Family Firewall"
+                width={36}
+                height={32}
+                className="h-8 w-auto object-contain"
+              />
+              <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-cream text-teal-deep font-black text-xs uppercase tracking-widest">
+                <ShieldCheck size={16} />
+                <span>{t('pact.badge', 'Family Defense Commitment')}</span>
+              </div>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-teal-deep">
               {t('pact.cardTitle', 'Family Firewall Pact')}

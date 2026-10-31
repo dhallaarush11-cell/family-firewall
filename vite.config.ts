@@ -9,34 +9,51 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: [
-        'favicon.svg',
+        'favicon.ico',
+        'favicon-64.png',
+        'apple-touch-icon.png',
+        'logo-full-640.png',
+        'logo-icon-256.png',
+        'pwa-192x192.png',
+        'pwa-512x512.png',
+        'pwa-maskable-192x192.png',
+        'pwa-maskable-512x512.png',
         'fonts/*.ttf',
-        'shield-icon.svg',
-        'pwa-192x192.svg',
-        'pwa-512x512.svg',
         'audio/**/*.mp3'
       ],
       manifest: {
         name: 'Family Firewall',
         short_name: 'FamilyFirewall',
         description: 'Rehearse together. Pause together. Protective scam rehearsal and safety pause for families.',
-        theme_color: '#0B4F4A',
+        theme_color: '#FFF1CC',
         background_color: '#FFF1CC',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
         icons: [
           {
-            src: '/pwa-192x192.svg',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
+            type: 'image/png',
+            purpose: 'any'
           },
           {
-            src: '/pwa-512x512.svg',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: '/pwa-maskable-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: '/pwa-maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           }
         ]
       },
