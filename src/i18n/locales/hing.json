@@ -358,5 +358,21 @@
     "installedTitle": "App Install ho chuka hai!",
     "offlineBadge": "Ek baar load hone ke baad 100% offline kaam karta hai",
     "installNowButton": "Abhi App Install Karein"
+  },
+  "guidance": {
+    "welcome": "Family Firewall mein welcome. Apni bhasha chunein aur start karne ke liye select karein ki aap parent hain ya family member.",
+    "elder_home": "Namaste! Aap ghar par safe hain. Kabhi bhi practice call karein, ya pressure lagne par turant orange Pause button dabayein.",
+    "drill": "Yeh ek safe practice call hai. Practice badge dekhein aur yaad rakhein aap kabhi bhi call cut kar sakte hain ya Pause daba sakte hain.",
+    "verify_caller": "Caller se family ka safe word poochein. Agar woh nahi bata paate, toh call cut karein aur apne person ko call karein.",
+    "settings": "Settings. Language badlein, text size switch karein, contacts manage karein, ya privacy proof dekhein.",
+    "safeword": "Family safe word. Secret phrase set karein jo sirf isi device par store hoti hai.",
+    "privacy_proof": "Privacy proof. Live outbound network requests audit karein aur verify karein ki safe word aur phone numbers kabhi bahar nahi jaate.",
+    "pact_card": "Family Firewall Pact. Apne phone ke paas rakhne ke liye rules aur contacts wala printable safety card download karein.",
+    "family_home": "Family dashboard. Parent ki practice readiness, streaks dekhein aur instant emergency Pause alerts paayein.",
+    "parent_pairing": "Family se connect karein. Apne family member ko pairing code ya QR code dikhayein.",
+    "family_pairing": "Parent ke saath pair karein. QR code scan karein ya 6-character code enter karein.",
+    "install": "Fast offline access aur one-tap safety pause ke liye home screen par Family Firewall install karein.",
+    "demo": "Demo mode. Offline behavior test karein, local data reset karein, aur sample records generate karein.",
+    "pilot_logger": "Observer pilot logger. Participant observation sessions record karein aur testing ke liye CSV export karein."
   }
 }

@@ -358,5 +358,21 @@
     "installedTitle": "App is Installed!",
     "offlineBadge": "Works 100% offline after one online load",
     "installNowButton": "Install App Now"
+  },
+  "guidance": {
+    "welcome": "Welcome to Family Firewall. Choose your language and select whether you are a parent or a family member to get started.",
+    "elder_home": "Namaste! You are safe at home. Practice a simulated scam call anytime, or tap the orange Pause button if you ever feel pressured.",
+    "drill": "This is a safe practice call. Look for the practice badge and remember you can hang up or tap Pause at any time.",
+    "verify_caller": "Ask the caller for the family safe word. If they cannot say it, hang up and call your person.",
+    "settings": "Settings. Change language, switch text size, manage trusted contacts, or view privacy proof.",
+    "safeword": "Family safe word. Set a secret phrase stored only on this device to verify callers claiming to be relatives.",
+    "privacy_proof": "Privacy proof. Audit live outbound network requests and verify that safe words and phone numbers never leave this device.",
+    "pact_card": "Family Firewall Pact. Download and print a safety card with golden rules and emergency contacts to keep near your phone.",
+    "family_home": "Family dashboard. View parent practice readiness, rehearsal streaks, and receive instant emergency Pause alerts.",
+    "parent_pairing": "Connect with family. Show the pairing code or QR code to your family member so they can connect with you.",
+    "family_pairing": "Pair with parent. Scan your parent's QR code or enter the 6-character code to link your phone.",
+    "install": "Install Family Firewall on your home screen for quick offline access and one-tap safety pause.",
+    "demo": "Demo mode. Test offline behaviors, reset local data, and generate sample rehearsal records for evaluation.",
+    "pilot_logger": "Observer pilot logger. Record participant observation sessions and export CSV results for testing."
   }
 }

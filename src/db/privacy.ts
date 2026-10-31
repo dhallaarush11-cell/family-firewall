@@ -106,6 +106,16 @@ export async function sendEvent(
   type: string,
   payload: Record<string, unknown>
 ): Promise<void> {
+  try {
+    await ensurePrivacyCacheLoaded();
+    auditPayloadForPrivacyLeak(payload);
+  } catch (err) {
+    if (err instanceof PrivacyViolationError) {
+      return Promise.reject(new Error(`Privacy protection blocked event: ${err.message}`));
+    }
+    throw err;
+  }
+
   const fieldNames = Object.keys(payload);
   const entry: PrivacyLogEntry = {
     id: `ev_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -123,16 +133,94 @@ export async function sendEvent(
   notifyPrivacyListeners();
 }
 
+export class PrivacyViolationError extends Error {
+  reason: 'safe_word' | 'phone_number';
+
+  constructor(message: string, reason: 'safe_word' | 'phone_number') {
+    super(message);
+    this.name = 'PrivacyViolationError';
+    this.reason = reason;
+  }
+}
+
+let cachedSafeWord: string | null = null;
+let cachedContactPhones: string[] = [];
+
+export function setPrivacyAuditCache(safeWord?: string | null, phones?: string[]): void {
+  if (safeWord !== undefined) cachedSafeWord = safeWord;
+  if (phones !== undefined) cachedContactPhones = phones;
+}
+
+export async function ensurePrivacyCacheLoaded(): Promise<{ safeWord?: string; contactPhones: string[] }> {
+  try {
+    const [safeWordRecord, contacts] = await Promise.all([
+      db.safeWord.get('current_safeword'),
+      db.trustedContacts.toArray()
+    ]);
+    cachedSafeWord = safeWordRecord?.word?.trim() || null;
+    cachedContactPhones = contacts.map(c => c.phone).filter(Boolean);
+  } catch {
+    // Tests or offline fallback
+  }
+  return {
+    safeWord: cachedSafeWord || undefined,
+    contactPhones: cachedContactPhones
+  };
+}
+
+export function showPrivacyBlockedNotification(reason: 'safe_word' | 'phone_number'): void {
+  const message =
+    reason === 'safe_word'
+      ? 'Privacy Alert: Secret family safe word was blocked from being sent to the server.'
+      : 'Privacy Alert: Trusted contact phone number was blocked from being sent to the server.';
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('privacy-audit-blocked', {
+        detail: { reason, message }
+      })
+    );
+  }
+}
+
+/**
+ * Normalizes a phone number by stripping all non-digits.
+ * If prefixed with Indian country code 91 (12 digits) or trunk 0 (11 digits), strips to 10 digits.
+ */
+export function normalizePhoneNumber(phone: string): string {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 12 && digits.startsWith('91')) {
+    return digits.slice(2);
+  }
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return digits.slice(1);
+  }
+  return digits;
+}
+
 /**
  * Global fetch wrapper used by Supabase client to inspect and log every outbound request
  */
-export function privacyLoggingFetch(
+export async function privacyLoggingFetch(
   input: RequestInfo | URL,
   init?: RequestInit
 ): Promise<Response> {
   const url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
   const method = init?.method || (typeof input === 'object' && 'method' in input ? (input as Request).method : 'GET');
   const body = init?.body;
+
+  // Audit outgoing body before sending
+  try {
+    await ensurePrivacyCacheLoaded();
+    auditPayloadForPrivacyLeak(body);
+  } catch (err) {
+    if (err instanceof PrivacyViolationError) {
+      // HARD REQUIREMENT: "On a match it blocks that one request, logs a clear message to the console, and shows a friendly error."
+      return Promise.reject(new Error(`Privacy protection blocked request: ${err.message}`));
+    }
+    throw err;
+  }
 
   logNetworkRequest({
     url,
@@ -147,25 +235,77 @@ export function privacyLoggingFetch(
  * Phone number pattern regex:
  * Covers 10-digit Indian numbers (+91, 0, or raw 6-9xxxxxxxx)
  * and generic 10-digit telephone formats.
+ * Kept for schema tests and log audit checks.
  */
 export const PHONE_NUMBER_PATTERN = /(?:\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}|(?:\+?91[\s-]?)?[6-9]\d{9}|\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b|\b[6-9]\d{9}\b/;
 
+export interface PrivacyAuditOptions {
+  safeWord?: string | null;
+  storedPhones?: string[];
+}
+
 /**
  * Audits a serialized payload string or object against privacy leaks.
- * Throws an error if any phone number pattern or the stored safe word is found.
+ * HARD RULE:
+ * "At runtime it must compare outgoing payloads only against the exact stored safe word
+ * and the exact stored contact phone numbers (normalized), not generic digit patterns.
+ * On a match it blocks that one request, logs a clear message to the console, and shows a friendly error."
  */
-export function auditPayloadForPrivacyLeak(payload: unknown, safeWord?: string): void {
+export function auditPayloadForPrivacyLeak(
+  payload: unknown,
+  optionsOrSafeWord?: string | null | PrivacyAuditOptions,
+  storedPhonesArg?: string[]
+): void {
   if (!payload) return;
   const serialized = typeof payload === 'string' ? payload : JSON.stringify(payload);
 
-  if (PHONE_NUMBER_PATTERN.test(serialized)) {
-    throw new Error(`PRIVACY VIOLATION: Phone number pattern detected in outbound payload!`);
+  let safeWordToCheck: string | null = null;
+  let phonesToCheck: string[] = [];
+
+  if (typeof optionsOrSafeWord === 'string' || optionsOrSafeWord === null) {
+    safeWordToCheck = optionsOrSafeWord;
+    phonesToCheck = storedPhonesArg || cachedContactPhones;
+  } else if (optionsOrSafeWord && typeof optionsOrSafeWord === 'object') {
+    safeWordToCheck = optionsOrSafeWord.safeWord !== undefined ? optionsOrSafeWord.safeWord : cachedSafeWord;
+    phonesToCheck = optionsOrSafeWord.storedPhones || cachedContactPhones;
+  } else {
+    safeWordToCheck = cachedSafeWord;
+    phonesToCheck = cachedContactPhones;
   }
 
-  if (safeWord && safeWord.trim().length >= 3) {
-    const needle = safeWord.trim().toLowerCase();
+  // 1. Check exact stored Safe Word (case-insensitive)
+  if (safeWordToCheck && safeWordToCheck.trim().length >= 2) {
+    const needle = safeWordToCheck.trim().toLowerCase();
     if (serialized.toLowerCase().includes(needle)) {
-      throw new Error(`PRIVACY VIOLATION: Stored safe word detected in outbound payload!`);
+      const msg = 'PRIVACY VIOLATION: Stored safe word detected in outbound payload!';
+      console.error(`[Privacy Audit Blocked] ${msg} Request blocked from leaving this device.`);
+      showPrivacyBlockedNotification('safe_word');
+      throw new PrivacyViolationError(msg, 'safe_word');
+    }
+  }
+
+  // 2. Check stored contact phone numbers (exact & normalized)
+  if (phonesToCheck && phonesToCheck.length > 0) {
+    for (const rawPhone of phonesToCheck) {
+      if (!rawPhone) continue;
+      const trimmedRaw = rawPhone.trim();
+      const normalized = normalizePhoneNumber(trimmedRaw);
+
+      if (normalized.length >= 7) {
+        // Build flexible regex matching normalized digits with optional spacing, dashes, or +91
+        const flexibleRegex = new RegExp('(?:\\+?91[\\s-]?)?' + normalized.split('').join('[\\s-]?'));
+
+        if (
+          serialized.includes(trimmedRaw) ||
+          serialized.includes(normalized) ||
+          flexibleRegex.test(serialized)
+        ) {
+          const msg = 'PRIVACY VIOLATION: Stored contact phone number detected in outbound payload!';
+          console.error(`[Privacy Audit Blocked] ${msg} Request blocked from leaving this device.`);
+          showPrivacyBlockedNotification('phone_number');
+          throw new PrivacyViolationError(msg, 'phone_number');
+        }
+      }
     }
   }
 }
